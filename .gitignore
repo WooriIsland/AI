@@ -3,8 +3,7 @@ jm/data/family(proto)/family/*.jpg
 jm/data/family(proto)/indivisual/*.jpg
 jm/data/family(travel)/*.jpg
 
-jm/data(Family_Album)/face_registration/multiple/*.jpg
-jm/data(Family_Album)/face_registration/single/*.jpg
+jm/data(Family_Album)/face_registration/indivisuals/*.jpg
 jm/data(Family_Album)/family/*.jpg
 
 jm/data(postman)/face_registration/*.jpg

@@ -40,15 +40,16 @@ def images_preprocessing():
             file_data = {}
 
             file_data = image_processor.get_metadata(file)
-
             file_data = image_processor.face_recognition(file_data,file,face_registration_db[family_id])
+
             album_registration_db[family_id].append(file_data)
 
-            # print(file.filename)
+            print(file.filename)
             save_name = save_root_family+file.filename.split(".")[0]+f'_{file_data["character"]}.jpg'
+
             if str(file_data["character"])=='[]':
                 miss_cnt += 1
-
+                
             # print("save name : ",save_name)
             save_file = Image.open(file)
             save_file.save(save_name)

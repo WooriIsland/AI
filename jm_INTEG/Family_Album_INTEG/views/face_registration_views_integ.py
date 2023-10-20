@@ -1,5 +1,6 @@
 from flask import Blueprint
 from flask import request
+from flask import jsonify
 from PIL import Image
 import pickle
 from Family_Album_INTEG.models.face_recognition import face_recognition
@@ -11,7 +12,7 @@ save_root_indivisuals = 'data(Family_Album)/face_registration/indivisuals/'
 save_root_db = 'data(Family_Album)/db/'
 
 face_registration_db = {}
-with open(save_root_db+'/face_registration_db.pickle', 'rb') as f:
+with open(save_root_db+'face_registration_db.pickle', 'rb') as f:
     face_registration_db = pickle.load(f)
 
 # 가족 구성원별 이미지 데이터 받기/안면 데이터 저장
@@ -49,11 +50,18 @@ def get_face_img():
         print(face_registration_db)
 
         # DB에 저장
-        with open(save_root_db+'/face_registration_db.pickle', 'wb') as f:
+        with open(save_root_db+'face_registration_db.pickle', 'wb') as f:
             pickle.dump(face_registration_db, f)
 
+        print('Complete Face Registration (POST)')
+        
         # 서버에 안면 데이터 저장 완료 응답
-        return 'Complete Face Registration (POST)'
+        res_json = {
+                        'description':'서버에 안면 데이터 저장 완료 응답',
+                        'family_id':family_id,
+                        'member_id':member_id
+                                                    }
+        return jsonify(res_json)
 
     elif request.method=='GET':
         

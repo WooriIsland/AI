@@ -1,5 +1,6 @@
 from flask import Blueprint
 from flask import request
+from flask import jsonify
 from Family_Album_INTEG.models.images_analysis.image_processor import Image_Processor
 from PIL import Image
 import pickle
@@ -92,8 +93,8 @@ def images_preprocessing():
             tags = list(set(tags.split(",")))
 
             # print(" to list")
-            # print(" tags :",tags)
-            # print(" summary :",summary)
+            print(" tags :",tags)
+            print(" summary :",summary)
 
             file_data['tags']=tags
             file_data['summary']=summary
@@ -115,8 +116,15 @@ def images_preprocessing():
 
         print("miss_cnt : ",miss_cnt)
         print(album_registration_db)
-        return 'Complete Album Registration (POST)'
-    
+
+        print('Complete Album Registration (POST)')
+
+        res_json={
+                    'message':'저장 완료!',
+                    'images_count':len(files)
+                    }
+
+        return jsonify(res_json)
     elif request.method=='GET':
 
         return 'Complete Album Registration (GET)'

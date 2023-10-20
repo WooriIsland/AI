@@ -27,7 +27,7 @@ album_registration_db = {}
 with open(save_root_db+'album_registration_db.pickle', 'rb') as f:
     album_registration_db = pickle.load(f)
 face_registration_db = {}
-with open(save_root_db+'/face_registration_db.pickle', 'rb') as f:
+with open(save_root_db+'face_registration_db.pickle', 'rb') as f:
     face_registration_db = pickle.load(f)
 
 @bp.route('/images_analysis',methods=['GET','POST'])

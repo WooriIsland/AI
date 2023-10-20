@@ -98,6 +98,11 @@ class Image_Processor():
             face_distances = face_recognition.face_distance(member_encoding, face_encoding)
             best_match_index = np.argmin(face_distances)
             # print("best_match_index : ",best_match_index)
+
+            ##############################################
+            # face recoginiton probabliity 
+            # print("face_distances : ",face_distances)
+
             if matches[best_match_index]:
                 name = member_id[best_match_index]
             members.append(name)

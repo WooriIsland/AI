@@ -43,6 +43,9 @@ def get_face_img():
         print(save_name)
         f.save(save_name)
 
+        # save_img = Image.open(save_name)
+        # img = face_recognition.load_image_file(save_img)
+        
         img = face_recognition.load_image_file(save_name)
         encoding = face_recognition.face_encodings(img)[0]
 
@@ -57,9 +60,10 @@ def get_face_img():
         
         # 서버에 안면 데이터 저장 완료 응답
         res_json = {
-                        'description':'서버에 안면 데이터 저장 완료 응답',
                         'family_id':family_id,
-                        'member_id':member_id
+                        'member_id':member_id,
+                        'description':'Complete Register Facial data'
+
                                                     }
         return jsonify(res_json)
 

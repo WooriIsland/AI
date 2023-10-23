@@ -40,7 +40,7 @@ def images_preprocessing():
         # print('family_id : ',family_id)
 
         # Album_reset
-        album_registration_db[family_id] = []
+        # album_registration_db[family_id] = []
 
         files = request.files.getlist("image")
         miss_cnt = 0

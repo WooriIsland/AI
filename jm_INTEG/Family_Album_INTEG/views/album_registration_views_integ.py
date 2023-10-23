@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask import request
 from flask import jsonify
+import base64
 from Family_Album_INTEG.models.images_analysis.image_processor import Image_Processor
 from PIL import Image
 import pickle
@@ -37,6 +38,8 @@ def images_preprocessing():
 
         family_id = request.form['family_id']
         # print('family_id : ',family_id)
+
+        # Album_reset
         album_registration_db[family_id] = []
 
         files = request.files.getlist("image")
@@ -49,8 +52,18 @@ def images_preprocessing():
             tokenizer, model, llava_image_processor, context_len,image_aspect_ratio,roles,conv,temperature,max_new_tokens,debug = image_processor.load_llava_model()
 
             file_data = {}
+            # print(file.read())
 
-            file_data = image_processor.get_metadata(file)
+            file_data['binary_image'] = base64.b64encode(file.read()).decode('utf-8')
+            file_data = image_processor.get_metadata(file,file_data)
+            # print(type(file))
+            # print(file_data)
+
+            # character_img = image_processor.extract_character(file)
+            # character_img.save('tmp.jpg')
+            # file_data = image_processor.face_recognition(file_data,character_img,face_registration_db[family_id])
+
+
             file_data = image_processor.face_recognition(file_data,file,face_registration_db[family_id])
 
             inference_outputs = image_processor.llava_inference_image(
@@ -65,6 +78,7 @@ def images_preprocessing():
                     max_new_tokens,
                     debug,
                     file)
+
             
             # print(" before re")
             # print(" tags :",inference_outputs[0])
@@ -99,7 +113,9 @@ def images_preprocessing():
             file_data['tags']=tags
             file_data['summary']=summary
 
+            # print("Before : ",album_registration_db)
             album_registration_db[family_id].append(file_data)
+            # print("After : ",album_registration_db)
 
             print(file.filename)
             save_name = save_root_family+file.filename.split(".")[0]+f'_{file_data["character"]}.jpg'
@@ -121,7 +137,8 @@ def images_preprocessing():
 
         res_json={
                     'message':'저장 완료!',
-                    'images_count':len(files)
+                    'images_count':len(files),
+                    'description':'Complete Register Family data'
                     }
 
         return jsonify(res_json)

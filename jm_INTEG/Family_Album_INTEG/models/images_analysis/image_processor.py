@@ -1,6 +1,7 @@
 from PIL import Image
 from PIL.ExifTags import TAGS, GPSTAGS
 from Family_Album_INTEG.models.face_recognition import face_recognition
+from Family_Album_INTEG.models.rembg.rembg.bg import remove
 from Family_Album_INTEG.models.LLaVA.llava.serve import cli
 from Family_Album_INTEG.models.LLaVA.llava.serve.cli import load_custom_model,inference_image
 import numpy as np
@@ -11,8 +12,8 @@ class Image_Processor():
         pass
 
     # 촬영 날짜/시간, 위도/경도 추출
-    def get_metadata(self,img):
-        img_data = {}
+    def get_metadata(self,img,img_data):
+        
         img_data['filename'] = img.filename
 
         img = Image.open(img)
@@ -25,6 +26,7 @@ class Image_Processor():
             # 이미지의 Exif 데이터 읽기
             exif_data = img._getexif()
 
+            # print(exif_data)
             if exif_data:
                 date_time = None
                 gps_info = None
@@ -45,7 +47,7 @@ class Image_Processor():
 
                 # 촬영 날짜 및 시간 출력
                 if date_time:
-                    # print(f"촬영 날짜 및 시간: {date_time}")
+                    print(f"촬영 날짜 및 시간: {date_time}")
                     pass
                 # GPS 정보 출력
                 if gps_info:
@@ -54,9 +56,9 @@ class Image_Processor():
                     if latitude and longitude:
                         lat = f"{latitude[0]}° {latitude[1]}' {latitude[2]}'' {gps_info['GPSLatitudeRef']}"
                         lon = f"{longitude[0]}° {longitude[1]}' {longitude[2]}'' {gps_info['GPSLongitudeRef']}"
-                        # print(f"촬영 위치 (GPS): 위도 {lat}, 경도 {lon}")
+                        print(f"촬영 위치 (GPS): 위도 {lat}, 경도 {lon}")
                     else:
-                        # print("촬영 위치 (GPS) 정보 없음")
+                        print("촬영 위치 (GPS) 정보 없음")
                         pass
             else:
                 print("이미지에 Exif 메타데이터가 없습니다.")
@@ -70,6 +72,26 @@ class Image_Processor():
 
         return img_data
     
+    def extract_character(self,img):
+        height, width, channels = 640, 640, 3
+        black_image = Image.fromarray(np.zeros((height, width, channels), dtype=np.uint8))
+        # black_image = Image.open(black_image)
+
+        # 인물 이미지 (PIL Image로 읽기 및 크기 조정)
+        person_image = Image.open(img)
+
+        person_image = person_image.resize((640, 640))
+
+        # 인물 마스킹 이미지 (PIL Image로 읽기 및 크기 조정)
+        mask_image = remove(person_image,only_mask=True).convert("L") 
+        mask_image = mask_image.point(lambda p: p > 128 and 255)  # 0 또는 255로 수정
+        mask_image = mask_image.resize((640, 640))
+
+        # 배경 이미지와 마스킹된 인물 이미지를 결합하여 새로운 이미지 생성 (PIL Image로)
+        result = Image.composite(person_image, black_image, mask_image)
+
+        return result
+
 
     def face_recognition(self,file_data,img,face_registration_db):
     # def extract_member(img,member_id,member_encoding):

@@ -265,15 +265,14 @@ jm/data/family(ex)/*.jpg
 jm/data/family(proto)/family/*.jpg
 jm/data/family(proto)/indivisual/*.jpg
 jm/data/family(travel)/*.jpg
-
 jm/data(Family_Album)/face_registration/indivisuals/*.jpg
 jm/data(Family_Album)/family/*.jpg
-
 jm/data(postman)/face_registration/*.jpg
 jm/data(postman)/family/*.jpg
-
 jm/data/resoure/*.json
 
-
-
 jm_PC1/data/family(travel)/*.jpg
+
+jm_INTEG/data(Family_Album)/face_registration/indivisuals/*.jpg
+jm_INTEG/data(Family_Album)/family/*.jpg
+jm_INTEG/data(Family_Album)/db/inquiry_family/family_1/*.jpg

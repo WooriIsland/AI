@@ -35,7 +35,14 @@ def inquiry_family_album():
 
         family_id = request.get_json()['family_id']
 
-        print(album_registration_db[family_id])
+        for i in range(len(album_registration_db[family_id])):
+
+            print("------------------------------------------------------------------------------------------")
+            print(album_registration_db[family_id][i]['filename'])
+            print(album_registration_db[family_id][i]['date_time'])
+            print(album_registration_db[family_id][i]['character'])
+            print(album_registration_db[family_id][i]['tags'])
+            print(album_registration_db[family_id][i]['summary'])
 
         family_json = album_registration_db[family_id]
 

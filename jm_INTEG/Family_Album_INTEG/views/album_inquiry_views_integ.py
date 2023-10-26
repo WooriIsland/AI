@@ -15,8 +15,6 @@ save_root_db = 'data(Family_Album)/db/'
 # family_1_album_registration_db = glob(save_root_db+'inquiry_family/')
 
 album_registration_db = {}
-with open(save_root_db+'album_registration_db.pickle', 'rb') as f:
-    album_registration_db = pickle.load(f)
 
 def read_image_to_binary(image_path):
     try:
@@ -30,6 +28,10 @@ def read_image_to_binary(image_path):
 # 가족 앨범 조회
 @bp.route('/inquiry',methods=['GET','POST'])
 def inquiry_family_album():
+
+
+    with open(save_root_db+'album_registration_db.pickle', 'rb') as f:
+        album_registration_db = pickle.load(f)
 
     if request.method=='POST':
 
@@ -51,8 +53,9 @@ def inquiry_family_album():
         # for img_name in imgs_name:
         #     img_path = save_root_db+'inquiry_family/'+family_id+'/'+img_name
         #     # family_json
+        res_family_json = {'data': family_json}
 
-        return jsonify(family_json)
+        return jsonify(res_family_json)
     
     elif request.method=='GET':
 

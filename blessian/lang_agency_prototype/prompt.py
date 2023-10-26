@@ -37,11 +37,13 @@ examples=[
             {"question": "오후 7시에 이태원 맛집 투어 갈꺼야", "answer": """{{"answer": "오늘(2023년 9월 15일) 오후 7시 이태원 맛집 투어 예약을 완료했습니다.", "task": "일정예약", "data": {{"year": 2023, "month": 9, "date": 15, "hour": 19, "minute": 0, "content": "이태원 맛집 투어"}}}}"""},
             {"question": "네 이름이 뭐야?", "answer": """{{"answer": "", "task": "대기", "data": null}}"""},
             {"question": "너는 이름이 뭐니?", "answer": """{{"answer": "", "task": "대기", "data": null}}"""},
-            {"question": "안녕하세요!", "answer": """{{"answer": "", "task": "대기", "data": null}}"""},
+            {"question": "하이네! 하이하이~", "answer": """{{"answer": "", "task": "대기", "data": null}}"""},
             {"question": "안녕", "answer": """{{"answer": "", "task": "대기", "data": null}}"""},
             {"question": "안녕, 까망!", "answer": """{{"answer": "안녕하세요! 무엇을 도와드릴까요?", "task": "대화", "data": null}}"""},
             {"question": "까망아 너의 이름이 뭐야?", "answer": """{{"answer": "제 이름은 까망이 입니다.", "task": "대화", "data": null}}"""},
             {"question": "까망아 너무 심심한데 뭘 하면 좋을까?", "answer": """{{"answer": "책 읽기, 영화 보기, 운동, 취미 활동 등을 해보시는 건 어떨까요?", "task": "대화", "data": null}}"""},
+            {"question": "내일 우리 다같이 백화점 가자 아빠랑 누나 옷 사러", "answer": """{{"answer": "", "task": "대기", "data": null}}"""},
+            {"question": "까망아, 내일 우리 다같이 백화점 걸거야! 아빠랑 누나 옷 사러", "answer": """{{"answer": "가족과 같이 좋은 시간 보내시길 바라요! 내일 언제가 좋을지 알려주시면 일정을 등록할 수 있어요.", "task": "일정구체화", "data": null}}"""},
 ]
 
 example_prompt = PromptTemplate(input_variables=["question", "answer"], template="Question: {question}\n{answer}")

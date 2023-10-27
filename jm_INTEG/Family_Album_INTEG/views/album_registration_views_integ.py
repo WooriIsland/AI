@@ -39,11 +39,14 @@ def images_preprocessing():
         family_id = request.form['family_id']
         # print('family_id : ',family_id)
 
-        # Album_reset
-        # album_registration_db[family_id] = []
+        ##### DB RESET #####
+        # album_registration_db['family_1'] = []
+        # album_registration_db['family_2'] = []
+        ####################
 
         files = request.files.getlist("image")
         miss_cnt = 0
+        all_file_data = []
 
         for idx,file in enumerate(files):
             
@@ -56,6 +59,7 @@ def images_preprocessing():
 
             file_data['binary_image'] = base64.b64encode(file.read()).decode('utf-8')
             file_data = image_processor.get_metadata(file,file_data)
+            file_data['date_time'] = '2019-09-09 13:00:00'
             # print(type(file))
             # print(file_data)
 
@@ -107,17 +111,21 @@ def images_preprocessing():
             tags = list(set(tags.split(",")))
 
             # print(" to list")
+
+            print(" filename : ",file.filename)
+            print(" date_time : ", file_data['date_time'])
+            print(" character :", file_data['character'])
             print(" tags :",tags)
             print(" summary :",summary)
 
             file_data['tags']=tags
             file_data['summary']=summary
-
+            
+            all_file_data.append(file_data)
             # print("Before : ",album_registration_db)
             album_registration_db[family_id].append(file_data)
             # print("After : ",album_registration_db)
 
-            print(file.filename)
             save_name = save_root_family+file.filename.split(".")[0]+f'_{file_data["character"]}.jpg'
 
             if str(file_data["character"])=='[]':
@@ -127,21 +135,30 @@ def images_preprocessing():
             save_file = Image.open(file)
             save_file.save(save_name)
 
+        ##### DB RESET #####
+        # album_registration_db_reset = {}
+        # with open(save_root_db+'album_registration_db.pickle', 'wb') as f:
+        #     pickle.dump(album_registration_db_reset,f)
+        ####################
+
+        ##### DB Origin#####
         with open(save_root_db+'album_registration_db.pickle', 'wb') as f:
             pickle.dump(album_registration_db,f)
+        ###################
 
         print("miss_cnt : ",miss_cnt)
-        print(album_registration_db)
+        # print(album_registration_db)
 
         print('Complete Album Registration (POST)')
 
-        res_json={
-                    'message':'저장 완료!',
-                    'images_count':len(files),
-                    'description':'Complete Register Family data'
-                    }
+        # res_json={
+        #             'message':'저장 완료!',
+        #             'images_count':len(files),
+        #             'description':'Complete Register Family data'
+        #             }
+        res_all_file_data_json = {'data':all_file_data}
 
-        return jsonify(res_json)
+        return jsonify(res_all_file_data_json)
     elif request.method=='GET':
 
         return 'Complete Album Registration (GET)'

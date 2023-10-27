@@ -261,6 +261,7 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,flask
 
+# family album server(local)
 jm/data/family(ex)/*.jpg
 jm/data/family(proto)/family/*.jpg
 jm/data/family(proto)/indivisual/*.jpg
@@ -271,8 +272,11 @@ jm/data(postman)/face_registration/*.jpg
 jm/data(postman)/family/*.jpg
 jm/data/resoure/*.json
 
+# family album server(gpu)
 jm_PC1/data/family(travel)/*.jpg
 
+# family album server(local+gpu)
 jm_INTEG/data(Family_Album)/face_registration/indivisuals/*.jpg
 jm_INTEG/data(Family_Album)/family/*.jpg
 jm_INTEG/data(Family_Album)/db/inquiry_family/family_1/*.jpg
+jm_INTEG/config.py

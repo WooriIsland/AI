@@ -43,5 +43,7 @@ async def test_chat(chatbot_schema: ChatbotSchema):
 @router.post("/conversation", tags=["conversation"])
 async def chat(chatbot_schema: ChatbotSchema):
     answer = chatbots.llm_chain.predict(input=chatbot_schema.content)
+    print("#"*3+answer)
+    answer = json.loads(answer)
     answer["island_id"] = chatbot_schema.island_id
-    return json.loads(answer)
+    return answer

@@ -8,7 +8,7 @@ from langchain.chains import LLMChain
 
 from lang_agency_prototype import prompt
 
-# OpenAI API Key
+# OpenAI API Key from dotenv
 dotenv_file = dotenv.find_dotenv(str(Path("./").absolute().joinpath(".env")))
 dotenv.load_dotenv(dotenv_file)
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]

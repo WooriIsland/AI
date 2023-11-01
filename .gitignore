@@ -280,3 +280,4 @@ jm_INTEG/data(Family_Album)/face_registration/indivisuals/*.jpg
 jm_INTEG/data(Family_Album)/family/*.jpg
 jm_INTEG/data(Family_Album)/db/inquiry_family/family_1/*.jpg
 jm_INTEG/config.py
+jm_INTEG/resource/secret.json

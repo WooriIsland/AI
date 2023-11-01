@@ -12,14 +12,12 @@ class Image_Processor():
         pass
 
     # 촬영 날짜/시간, 위도/경도 추출
-    def get_metadata(self,img,img_data):
-        
-        img_data['filename'] = img.filename
+    def get_metadata(self,img):
 
         img = Image.open(img)
 
-        date_time = None
-        lat,lon = None,None
+        date_time = ''
+        lat,lon = '',''
 
         try:
             # with Image.open(image_path) as img:
@@ -66,11 +64,7 @@ class Image_Processor():
         except Exception as e:
             print(f"메타데이터를 추출하는 동안 오류가 발생했습니다: {e}")
 
-        img_data['date_time'] = date_time
-        img_data['latitude'] = lat
-        img_data['longitude'] = lon 
-
-        return img_data
+        return date_time,lat,lon
     
     def extract_character(self,img):
         height, width, channels = 640, 640, 3
@@ -93,19 +87,19 @@ class Image_Processor():
         return result
 
 
-    def face_recognition(self,file_data,img,face_registration_db):
+    def face_recognition(self,img,face_encoding_dict):
     # def extract_member(img,member_id,member_encoding):
 
         # print("face_registration_db.values() : ", np.array(face_registration_db.values()))
         # print("face_registration_db.keys() : ",face_registration_db.keys())
 
-        members = []
-        member_id = []
-        member_encoding = []
+        characters = []
+        nicknames = []
+        encodings = []
 
-        for id,encoding in face_registration_db.items():
-            member_id.append(id)
-            member_encoding.append(encoding)
+        for id,encoding in face_encoding_dict.items():
+            nicknames.append(id)
+            encodings.append(encoding)
 
         unknown_image = face_recognition.load_image_file(img)
         face_locations = face_recognition.face_locations(unknown_image)
@@ -113,11 +107,11 @@ class Image_Processor():
         face_encodings = face_recognition.face_encodings(unknown_image, face_locations)
 
         for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
-            matches = face_recognition.compare_faces(member_encoding, face_encoding)
+            matches = face_recognition.compare_faces(encodings, face_encoding)
 
             name = "Unknown"
 
-            face_distances = face_recognition.face_distance(member_encoding, face_encoding)
+            face_distances = face_recognition.face_distance(encodings, face_encoding)
             best_match_index = np.argmin(face_distances)
             # print("best_match_index : ",best_match_index)
 
@@ -126,12 +120,10 @@ class Image_Processor():
             # print("face_distances : ",face_distances)
 
             if matches[best_match_index]:
-                name = member_id[best_match_index]
-            members.append(name)
+                name = nicknames[best_match_index]
+            characters.append(name)
 
-        file_data['character'] = members
-
-        return file_data
+        return characters
     
     def load_llava_model(self):
 

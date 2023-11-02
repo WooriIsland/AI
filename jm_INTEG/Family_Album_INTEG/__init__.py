@@ -3,6 +3,7 @@ from .views import face_registration_views_integ, main_views_integ
 from config import Config
 
 def create_app():
+    
     app = Flask(__name__, instance_relative_config=True)
 
     from .views import main_views_integ,face_registration_views_integ,album_registration_views_integ,album_inquiry_views_integ

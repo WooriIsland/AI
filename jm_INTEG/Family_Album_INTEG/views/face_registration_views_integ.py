@@ -7,6 +7,7 @@ from config import DBConfig
 # import boto3
 import json
 from Family_Album_INTEG.cloud.s3 import S3
+import random
 
 bp = Blueprint('face_registration_integ',__name__,url_prefix='/face_registration_integ')
 
@@ -24,6 +25,7 @@ aws_access_key_id = data['aws_access_key_id']
 aws_secret_access_key = data['aws_secret_access_key']
 bucket = data['bucket']
 bucket_dir = 'Family_Album_Bucket_Folder/'
+face_data_dir = 'face_data/'
 
 s3 = S3.connection(region_name,aws_access_key_id,aws_secret_access_key)
 
@@ -33,6 +35,10 @@ s3 = S3.connection(region_name,aws_access_key_id,aws_secret_access_key)
 def get_face_img():
     
     if request.method=='POST':
+
+            # 0에서 9 사이의 난수 10개 생성하고 문자열로 변환
+        random_numbers = [str(random.randint(0, 9)) for _ in range(10)]
+        random_string = ''.join(random_numbers)
 
         print("체크 request.form : ", request.form)
 
@@ -77,10 +83,10 @@ def get_face_img():
         # face_image = base64.b64encode(face_image.read()).decode('utf-8')
         # print("file_name.split()[0]",file_name.split(".")[0])
         # S3
-        print("bucket_dir+file_name : ",bucket_dir+file_name)
-        put_object_result = S3.put_object(s3,bucket,save_name,bucket_dir+file_name) # Save
+        print("bucket_dir+file_name : ",bucket_dir+face_data_dir+random_string+'_'+file_name)
+        put_object_result = S3.put_object(s3,bucket,save_name,bucket_dir+face_data_dir+random_string+'_'+file_name) # Save
         print("Save Face Data to S3 : ",put_object_result)
-        face_image_url = S3.get_image_url(s3,bucket,bucket_dir+file_name)
+        face_image_url = S3.get_image_url(s3,bucket,bucket_dir+face_data_dir+random_string+'_'+file_name)
         print("Face Image URL : ",face_image_url)
 
         try:
@@ -107,10 +113,11 @@ def get_face_img():
 
         print('Complete Face Registration (POST)')
         
-        # 서버에 안면 데이터 저장 완료 응답
+        # Unity에 안면 데이터 저장 완료 응답
         res_json = {
-                        'island_unique_number':island_unique_number,
-                        'user_id':user_id,
+                        # 'island_unique_number':island_unique_number,
+                        # 'user_id':user_id,
+                        'message' : '얼굴 등록 완료!',
                         'description':'Complete Register Facial data'
 
                                                     }

@@ -8,6 +8,10 @@ import pymysql
 from config import DBConfig
 import datetime
 import numpy as np
+import json
+from Family_Album_INTEG.cloud.s3 import S3
+import random
+
 
 bp = Blueprint('album_registration_integ',__name__,url_prefix='/album_registration_integ')
 
@@ -25,6 +29,19 @@ image_processor = Image_Processor()
 translator = googletrans.Translator()
 # Local Save Root
 save_root_family = 'data(Family_Album)/family/'
+
+# AWS
+with open('resource/secret.json', 'r') as json_file:
+    data = json.load(json_file)
+
+region_name = data['region_name']
+aws_access_key_id = data['aws_access_key_id']
+aws_secret_access_key = data['aws_secret_access_key']
+bucket = data['bucket']
+bucket_dir = 'Family_Album_Bucket_Folder/'
+family_photo_dir = 'family_photo/'
+
+s3 = S3.connection(region_name,aws_access_key_id,aws_secret_access_key)
 
 @bp.route('/images_analysis',methods=['GET','POST'])
 def images_preprocessing():
@@ -85,10 +102,17 @@ def images_preprocessing():
             face_encoding_dict[nickname] = np.array(eval(encoding))
 
         for idx,photo_image in enumerate(photo_images):
-            
+
+            # 0에서 9 사이의 난수 10개 생성하고 문자열로 변환
+            random_numbers = [str(random.randint(0, 9)) for _ in range(10)]
+            random_string = ''.join(random_numbers)
+
             print("------------------ ",idx+1," ------------------")
             
             tokenizer, model, llava_image_processor, context_len,image_aspect_ratio,roles,conv,temperature,max_new_tokens,debug = image_processor.load_llava_model()
+
+            # filename
+            file_name = photo_image.filename.lower()
 
             # photo_datetime
             photo_datetime,photo_latitude,photo_longitude = image_processor.get_metadata(photo_image)
@@ -133,11 +157,21 @@ def images_preprocessing():
             PIL_photo_image = Image.open(photo_image)
             PIL_photo_image.save(save_name)
 
-            photo_image.seek(0)
-            # photo_image
-            photo_image= base64.b64encode(photo_image.read()).decode('utf-8')
-            # photo_thumbnail
-            photo_thumbnail = base64.b64encode(PIL_photo_image.resize((320,320)).tobytes()).decode('utf-8')
+            #######################
+            # photo_image to base64
+            #######################
+
+            # photo_image.seek(0)
+            # # photo_image
+            # photo_image= base64.b64encode(photo_image.read()).decode('utf-8')
+            # # photo_thumbnail
+            # photo_thumbnail = base64.b64encode(PIL_photo_image.resize((320,320)).tobytes()).decode('utf-8')
+
+            print("bucket_dir+file_name : ",bucket_dir+family_photo_dir+random_string+'_'+file_name)
+            put_object_result = S3.put_object(s3,bucket,save_name,bucket_dir+family_photo_dir+random_string+'_'+file_name) # Save
+            print("Save Face Data to S3 : ",put_object_result)
+            family_photo_url = S3.get_image_url(s3,bucket,bucket_dir+family_photo_dir+random_string+'_'+file_name)
+            print("Family Photo URL : ",family_photo_url)
 
             # print(" filename : ",photo_image.filename)
             # print("user_id : ",user_id, "type : ",type(user_id))
@@ -149,10 +183,10 @@ def images_preprocessing():
             # print(type(photo_image))
             # print(type(photo_thumbnail))
 
-            print(len(photo_image))
-            print(len(photo_thumbnail))
+            # print(len(photo_image))
+            # print(len(photo_thumbnail))
             
-            one_image_data = (user_id,island_unique_number,photo_datetime,character,tags,summary,photo_image,photo_thumbnail)
+            one_image_data = (user_id,island_unique_number,photo_datetime,character,tags,summary,family_photo_url,family_photo_url)
             # one_image_data = (user_id,island_unique_number,photo_datetime,character,tags,summary)
             all_family_photo_data.append(one_image_data)
 

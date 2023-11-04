@@ -118,6 +118,9 @@ def images_preprocessing():
             photo_datetime,photo_latitude,photo_longitude = image_processor.get_metadata(photo_image)
             if photo_datetime=='':
                 photo_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            if photo_latitude=='':
+                photo_latitude = '000.0000000000'
+                photo_longitude = '000.0000000000'
 
             # character (list)
             character = image_processor.face_recognition(photo_image,face_encoding_dict)
@@ -186,7 +189,7 @@ def images_preprocessing():
             # print(len(photo_image))
             # print(len(photo_thumbnail))
             
-            one_image_data = (user_id,island_unique_number,photo_datetime,character,tags,summary,family_photo_url,family_photo_url)
+            one_image_data = (user_id,island_unique_number,photo_datetime,photo_latitude,photo_longitude,character,tags,summary,family_photo_url,family_photo_url)
             # one_image_data = (user_id,island_unique_number,photo_datetime,character,tags,summary)
             all_family_photo_data.append(one_image_data)
 
@@ -197,7 +200,7 @@ def images_preprocessing():
             # INSERT
         with conn.cursor() as cursor:
             
-            query = """INSERT INTO family_photo_tb (user_id,island_unique_number,photo_datetime,`character`,tags,summary,photo_image,photo_thumbnail) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"""
+            query = """INSERT INTO family_photo_tb (user_id,island_unique_number,photo_datetime,photo_latitude,photo_longitude,`character`,tags,summary,photo_image,photo_thumbnail) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
             cursor.executemany(query,all_family_photo_data)
 
         conn.commit()
@@ -208,10 +211,14 @@ def images_preprocessing():
         print('Complete Album Registration (POST)')
 
         res_json={
-                    'message':'저장 완료!',
-                    'images_count':len(photo_images),
-                    'description':'Complete Register Family data'
-                    }
+                    'data' : {
+                                'island_unique_number' : island_unique_number,
+                                'user_id' : user_id,
+                                'message':'사진 저장 완료!',
+                                'images_count':len(photo_images),
+                                'description':'Complete Register Family data'
+                            }
+                }
 
         return jsonify(res_json)
         # return 'Complete Album Registration (POST)'

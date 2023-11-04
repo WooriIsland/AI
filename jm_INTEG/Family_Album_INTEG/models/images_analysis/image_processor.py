@@ -51,10 +51,17 @@ class Image_Processor():
                 if gps_info:
                     latitude = gps_info.get('GPSLatitude', None)
                     longitude = gps_info.get('GPSLongitude', None)
+                    # print("latitude : ",latitude)
+                    # print("longitude : ",longitude)
                     if latitude and longitude:
                         lat = f"{latitude[0]}° {latitude[1]}' {latitude[2]}'' {gps_info['GPSLatitudeRef']}"
                         lon = f"{longitude[0]}° {longitude[1]}' {longitude[2]}'' {gps_info['GPSLongitudeRef']}"
                         print(f"촬영 위치 (GPS): 위도 {lat}, 경도 {lon}")
+                        if 'nan' in lat:
+                            print("lat : ",lat)
+                            print("lon : ",lon)
+                            lat = ''
+                            lon = ''
                     else:
                         print("촬영 위치 (GPS) 정보 없음")
                         pass

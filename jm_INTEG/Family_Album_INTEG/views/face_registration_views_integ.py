@@ -115,12 +115,15 @@ def get_face_img():
         
         # Unity에 안면 데이터 저장 완료 응답
         res_json = {
-                        # 'island_unique_number':island_unique_number,
-                        # 'user_id':user_id,
-                        'message' : '얼굴 등록 완료!',
-                        'description':'Complete Register Facial data'
-
-                                                    }
+                        'data':
+                                {
+                                    'island_unique_number' : island_unique_number,
+                                    'user_id' : user_id,
+                                    'user_nickname' : user_nickname,
+                                    'message' : '얼굴 등록 완료!',
+                                    'description' : 'Complete Register Facial data'
+                                }
+                    }
         return jsonify(res_json)
 
     elif request.method=='GET':

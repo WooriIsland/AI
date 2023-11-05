@@ -72,6 +72,9 @@ def images_preprocessing():
             print("user_tb SELECT Exception! : ",e)
             return 'Exception!' + e 
 
+        # finally:
+        #     conn.close()
+
         # print(island_unique_numbers)
         island_unique_number = island_unique_numbers[0][0]
         # print(island_unique_number)
@@ -97,6 +100,9 @@ def images_preprocessing():
         # print(len(nicknames_encodings))
         # print(len(nicknames_encodings[0]))
         # print(np.array(eval(nicknames_encodings[0][1])).shape)
+
+        # finally:
+        #     conn.close()
 
         for nickname,encoding in nicknames_encodings:
             face_encoding_dict[nickname] = np.array(eval(encoding))
@@ -198,12 +204,20 @@ def images_preprocessing():
         # print("-----------------------")
         # try:
             # INSERT
-        with conn.cursor() as cursor:
-            
-            query = """INSERT INTO family_photo_tb (user_id,island_unique_number,photo_datetime,photo_latitude,photo_longitude,`character`,tags,summary,photo_image,photo_thumbnail) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-            cursor.executemany(query,all_family_photo_data)
 
-        conn.commit()
+        try :
+            with conn.cursor() as cursor:
+                
+                query = """INSERT INTO family_photo_tb (user_id,island_unique_number,photo_datetime,photo_latitude,photo_longitude,`character`,tags,summary,photo_image,photo_thumbnail) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+                cursor.executemany(query,all_family_photo_data)
+
+            conn.commit()
+
+        except Exception as e:  
+            print("facial_data_tb INSERT Exception : ",e)
+
+        # finally:
+        #     conn.close()
     
         # except Exception as e:
         #     print("family_photo_tb INSERT Exception : ",e)

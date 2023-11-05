@@ -110,6 +110,9 @@ def get_face_img():
             print("user_tb INSERT Exception ! :",e)
             print("facial_data_tb INSERT Exception ! :",e)
             return 'Exception!' + e
+        
+        # finally:
+        #     conn.close()
 
         print('Complete Face Registration (POST)')
         

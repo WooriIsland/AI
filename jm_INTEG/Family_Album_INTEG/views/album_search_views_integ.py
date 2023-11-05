@@ -1,24 +1,21 @@
 from flask import Blueprint,request,jsonify
-import pickle
 import pymysql
 from config import DBConfig
 
-bp = Blueprint('album_inquiry_integ',__name__,url_prefix='/album_inquiry_integ')
+bp = Blueprint('album_search_integ',__name__,url_prefix='/album_search_integ')
+
+# DB
+conn = pymysql.connect(host=DBConfig.MYSQL_HOST, user=DBConfig.MYSQL_USER, password=DBConfig.MYSQL_PASSWORD, db=DBConfig.MYSQL_DB, charset=DBConfig.MYSQL_CHARSET)
 
 # 가족 앨범 조회
-@bp.route('/inquiry',methods=['GET','POST'])
-def inquiry_family_album():
-
-    # DB
-    conn = pymysql.connect(host=DBConfig.MYSQL_HOST, user=DBConfig.MYSQL_USER, password=DBConfig.MYSQL_PASSWORD, db=DBConfig.MYSQL_DB, charset=DBConfig.MYSQL_CHARSET)
-
-    # with open(save_root_db+'album_registration_db.pickle', 'rb') as f:
-    #     album_registration_db = pickle.load(f)
+@bp.route('/search',methods=['GET','POST'])
+def search_family_album():
 
     if request.method=='POST':
 
         island_unique_number = request.get_json()['island_unique_number']
-        family_photos = []
+        search_keyword = request.get_json()['search_keyword']
+        searched_family_photos = []
 
         try:
 
@@ -27,18 +24,19 @@ def inquiry_family_album():
                 query = """SELECT photo_id,photo_image,photo_datetime,photo_latitude,photo_longitude,`character`,summary
                            FROM family_photo_tb
                            WHERE island_unique_number = %s
+                           AND (`character` LIKE %s or tags LIKE %s or summary LIKE %s)
                            ORDER BY photo_datetime ASC"""
-                cursor.execute(query,(island_unique_number,))
+                cursor.execute(query, (island_unique_number, f'%{search_keyword}%', f'%{search_keyword}%', f'%{search_keyword}%'))
                 family_photos_data = cursor.fetchall()
                 # print(family_photos_data)
         except Exception as e:
-            print("user_tb SELECT Exception! : ",e)
+            print("family_photo SELECT(search) Exception! : ",e)
             return 'Exception!' + e 
-        
+
         # finally:
         #     conn.close()
         
-        print(" Family Photos Total Count : ",len(family_photos_data))
+        print(" Searched Family Photos Total Count : ",len(family_photos_data))
         for idx,family_photo_data in enumerate(family_photos_data):
             print(" ----------- ", idx, " ----------")
             data = {}
@@ -58,9 +56,9 @@ def inquiry_family_album():
             
             print(data)
 
-            family_photos.append(data)
+            searched_family_photos.append(data)
 
-        res_json = {'data': family_photos}
+        res_json = {'data': searched_family_photos}
 
         return jsonify(res_json)
     

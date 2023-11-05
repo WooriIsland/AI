@@ -4,12 +4,13 @@ from config import DBConfig
 
 bp = Blueprint('album_search_integ',__name__,url_prefix='/album_search_integ')
 
-# DB
-conn = pymysql.connect(host=DBConfig.MYSQL_HOST, user=DBConfig.MYSQL_USER, password=DBConfig.MYSQL_PASSWORD, db=DBConfig.MYSQL_DB, charset=DBConfig.MYSQL_CHARSET)
-
 # 가족 앨범 조회
 @bp.route('/search',methods=['GET','POST'])
 def search_family_album():
+
+
+    # DB
+    conn = pymysql.connect(host=DBConfig.MYSQL_HOST, user=DBConfig.MYSQL_USER, password=DBConfig.MYSQL_PASSWORD, db=DBConfig.MYSQL_DB, charset=DBConfig.MYSQL_CHARSET)
 
     if request.method=='POST':
 

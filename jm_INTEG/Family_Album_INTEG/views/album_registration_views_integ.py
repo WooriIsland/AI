@@ -1,5 +1,5 @@
 from flask import Blueprint,request,jsonify
-import base64
+# import base64
 from Family_Album_INTEG.models.images_analysis.image_processor import Image_Processor
 from PIL import Image
 import re
@@ -11,7 +11,7 @@ import numpy as np
 import json
 from Family_Album_INTEG.cloud.s3 import S3
 import random
-
+import copy
 
 bp = Blueprint('album_registration_integ',__name__,url_prefix='/album_registration_integ')
 
@@ -25,6 +25,12 @@ conn = pymysql.connect(host=DBConfig.MYSQL_HOST, user=DBConfig.MYSQL_USER, passw
 
  # 이미지 분석 객체
 image_processor = Image_Processor()
+
+#####################
+# Model Loading (Ver2)
+#####################
+tokenizer, model, llava_image_processor, context_len,image_aspect_ratio,roles,conv,temperature,max_new_tokens,debug = image_processor.load_llava_model()
+
 # 번역 객체
 translator = googletrans.Translator()
 # Local Save Root
@@ -109,13 +115,17 @@ def images_preprocessing():
 
         for idx,photo_image in enumerate(photo_images):
 
+            origin_conv = conv.copy()
+
             # 0에서 9 사이의 난수 10개 생성하고 문자열로 변환
             random_numbers = [str(random.randint(0, 9)) for _ in range(10)]
             random_string = ''.join(random_numbers)
 
             print("------------------ ",idx+1," ------------------")
-            
-            tokenizer, model, llava_image_processor, context_len,image_aspect_ratio,roles,conv,temperature,max_new_tokens,debug = image_processor.load_llava_model()
+            #####################
+            # Model Loading (Ver1)
+            #####################
+            # tokenizer, model, llava_image_processor, context_len,image_aspect_ratio,roles,conv,temperature,max_new_tokens,debug = image_processor.load_llava_model()
 
             # filename
             file_name = photo_image.filename.lower()
@@ -130,6 +140,8 @@ def images_preprocessing():
 
             # character (list)
             character = image_processor.face_recognition(photo_image,face_encoding_dict)
+            # character origin
+            character_origin = character.copy()
             character = str(character)
 
             inference_outputs = image_processor.llava_inference_image(
@@ -139,28 +151,36 @@ def images_preprocessing():
                     context_len,
                     image_aspect_ratio,
                     roles,
-                    conv,
+                    origin_conv,
                     temperature,
                     max_new_tokens,
                     debug,
-                    photo_image)
+                    photo_image,
+                    character_origin)
 
-            tags = re.sub("Places|Place|People|</s>|\\n|:|1. |\.|,,|, ,","",inference_outputs[0])
-            tags = re.sub(r':','',tags)
-            tags = re.sub("2.|3.|4.|5.|6.|7.|8.|9.|10.|11.|12.|13.|14.|15.|Backgrounds|Objects|Background|Object",",",tags)
+            # tags = re.sub("Places|Place|People|</s>|\\n|:|1. |\.|,,|, ,","",inference_outputs[0])
+            # tags = re.sub(r':','',tags)
+            # tags = re.sub("2.|3.|4.|5.|6.|7.|8.|9.|10.|11.|12.|13.|14.|15.|Backgrounds|Objects|Background|Object",",",tags)
 
-            summary = re.sub("summary|</s>|\\n:","",inference_outputs[1])
-
-            tags = translator.translate(tags,dest='ko',src='en').text
+            # summary = re.sub("summary|</s>|\\n:","",inference_outputs[1])
+            # tags = translator.translate(tags,dest='ko',src='en').text
 
             # summary
-            summary = translator.translate(summary,dest='ko',src='en').text
+            # summary = translator.translate(summary,dest='ko',src='en').text
 
-            tags = re.sub(" ","",tags)
+            # tags = re.sub(" ","",tags)
 
             # tags
-            tags = list(set(tags.split(",")))
-            tags = str(tags)
+            # tags = list(set(tags.split(",")))
+            # tags = str(tags)
+
+            tags = inference_outputs[0]
+            tags = re.sub("</s>","",tags)
+            tags = translator.translate(tags,dest='ko',src='en').text
+            
+            summary = inference_outputs[1]
+            summary = re.sub("</s>","",summary)
+            summary = translator.translate(summary,dest='ko',src='en').text
             
             save_name = save_root_family+photo_image.filename.split(".")[0]+'_'+str(character)+'.jpg'
             PIL_photo_image = Image.open(photo_image)

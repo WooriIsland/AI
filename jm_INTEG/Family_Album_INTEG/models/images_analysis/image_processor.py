@@ -149,7 +149,8 @@ class Image_Processor():
                     temperature,
                     max_new_tokens,
                     debug,
-                    image_file):
+                    image_file,
+                    character_origin):
         
         inference_outputs = inference_image(tokenizer,
                     model,
@@ -161,6 +162,7 @@ class Image_Processor():
                     temperature,
                     max_new_tokens,
                     debug,
-                    image_file)
+                    image_file,
+                    character_origin)
         
         return inference_outputs

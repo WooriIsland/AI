@@ -3,7 +3,7 @@ from pathlib import Path
 
 import dotenv
 from langchain.chat_models import ChatOpenAI
-from langchain.memory import ConversationBufferMemory
+from langchain.memory import ConversationBufferWindowMemory
 from langchain.chains import LLMChain
 
 from lang_agency_prototype import prompt
@@ -21,12 +21,12 @@ prompt.system_prompt
 model = ChatOpenAI(model="gpt-4", openai_api_key=OPENAI_API_KEY)
 
 # Memory
-memory = ConversationBufferMemory(ai_prefix="AI Assistant")
+memory = ConversationBufferWindowMemory(ai_prefix="AI Assistant")
 
 # Chain
 llm_chain = LLMChain(
     prompt=prompt.prompt,
     llm=model,
     verbose=True,
-    memory=ConversationBufferMemory(ai_prefix="AI Assistant")
+    memory=ConversationBufferWindowMemory(ai_prefix="AI Assistant", k=10)
 )

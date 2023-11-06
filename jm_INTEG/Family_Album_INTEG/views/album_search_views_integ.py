@@ -22,7 +22,7 @@ def search_family_album():
 
             # SELECT
             with conn.cursor() as cursor:
-                query = """SELECT photo_id,photo_image,photo_datetime,photo_latitude,photo_longitude,`character`,summary
+                query = """SELECT photo_id,photo_image,photo_datetime,photo_location,`character`,summary
                            FROM family_photo_tb
                            WHERE island_unique_number = %s
                            AND (`character` LIKE %s or tags LIKE %s or summary LIKE %s)
@@ -45,15 +45,19 @@ def search_family_album():
             data['photo_image'] = family_photo_data[1]
             # print("photo_datetime : ",str(family_photo_data[1]))
             data['photo_datetime'] = str(family_photo_data[2])
+
+            data['photo_location'] = str(family_photo_data[3])
+
             # print("photo_latitude : ",float(family_photo_data[2]))
-            data['photo_latitude'] = float(family_photo_data[3])
+            # data['photo_latitude'] = float(family_photo_data[3])
             # print("photo_longitude : ",float(family_photo_data[3]))
-            data['photo_longitude'] = float(family_photo_data[4])
+            # data['photo_longitude'] = float(family_photo_data[4])
+
             # print("character : ",eval(family_photo_data[4]))
             # print("character : ",type(eval((family_photo_data[4]))))
-            data['character'] = eval(family_photo_data[5])     
+            data['character'] = eval(family_photo_data[4])     
             # print("summary : ",type(family_photo_data[5]))
-            data['summary'] = family_photo_data[6]     
+            data['summary'] = family_photo_data[5]      
             
             print(data)
 

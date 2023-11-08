@@ -1,11 +1,11 @@
-from flask import Flask
-from flask import Blueprint
+from flask import Flask,Blueprint
 import pymysql
 from config import DBConfig
 
 
 bp = Blueprint('main_integ',__name__,url_prefix='/')
 
+# DB
 # conn = pymysql.connect(host='localhost', user='root', password='1234', db='family_album', charset='utf8')
 conn = pymysql.connect(host=DBConfig.MYSQL_HOST, user=DBConfig.MYSQL_USER, password=DBConfig.MYSQL_PASSWORD, db=DBConfig.MYSQL_DB, charset=DBConfig.MYSQL_CHARSET)
 

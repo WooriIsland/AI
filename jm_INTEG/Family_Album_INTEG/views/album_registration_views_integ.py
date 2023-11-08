@@ -1,14 +1,22 @@
-from flask import Blueprint
-from flask import request
-from flask import jsonify
-import base64
+from flask import Blueprint,request,jsonify
+# import base64
 from Family_Album_INTEG.models.images_analysis.image_processor import Image_Processor
 from PIL import Image
-import pickle
 import re
 import googletrans
+import pymysql
+from config import DBConfig
+import datetime
+import numpy as np
+import json
+from Family_Album_INTEG.cloud.s3 import S3
+import random
+import copy
 
 bp = Blueprint('album_registration_integ',__name__,url_prefix='/album_registration_integ')
+
+# DB
+conn = pymysql.connect(host=DBConfig.MYSQL_HOST, user=DBConfig.MYSQL_USER, password=DBConfig.MYSQL_PASSWORD, db=DBConfig.MYSQL_DB, charset=DBConfig.MYSQL_CHARSET)
 
 # 1. 메타데이터 추출 - Python 코드
 # 2. 인물 추출 - Face Recognition
@@ -18,57 +26,127 @@ bp = Blueprint('album_registration_integ',__name__,url_prefix='/album_registrati
  # 이미지 분석 객체
 image_processor = Image_Processor()
 
+#####################
+# Model Loading (Ver2)
+#####################
+tokenizer, model, llava_image_processor, context_len,image_aspect_ratio,roles,conv,temperature,max_new_tokens,debug = image_processor.load_llava_model()
+
 # 번역 객체
 translator = googletrans.Translator()
-
+# Local Save Root
 save_root_family = 'data(Family_Album)/family/'
-save_root_db = 'data(Family_Album)/db/'
 
-album_registration_db = {}
-with open(save_root_db+'album_registration_db.pickle', 'rb') as f:
-    album_registration_db = pickle.load(f)
-face_registration_db = {}
-with open(save_root_db+'face_registration_db.pickle', 'rb') as f:
-    face_registration_db = pickle.load(f)
+# AWS
+with open('resource/secret.json', 'r') as json_file:
+    data = json.load(json_file)
+
+region_name = data['region_name']
+aws_access_key_id = data['aws_access_key_id']
+aws_secret_access_key = data['aws_secret_access_key']
+bucket = data['bucket']
+bucket_dir = 'Family_Album_Bucket_Folder/'
+family_photo_dir = 'family_photo/'
+
+s3 = S3.connection(region_name,aws_access_key_id,aws_secret_access_key)
 
 @bp.route('/images_analysis',methods=['GET','POST'])
 def images_preprocessing():
 
     if request.method=='POST':
 
-        family_id = request.form['family_id']
-        # print('family_id : ',family_id)
+        user_id = request.form['user_id'] # 2
+        # print(island_unique_number)
+        # print(type(island_unique_number))
+        photo_images = request.files.getlist("photo_image")
+        face_encoding_dict = {} # key = nickname, value = np.array[,,,]
+        all_family_photo_data = [] #[(),(),()]
+        all_json_res_photo_data = []
 
-        ##### DB RESET #####
-        # album_registration_db['family_1'] = []
-        # album_registration_db['family_2'] = []
-        ####################
+        print(photo_images)
 
-        files = request.files.getlist("image")
-        miss_cnt = 0
-        all_file_data = []
+        # user_id => island_unique_number
+        try:
 
-        for idx,file in enumerate(files):
+            # SELECT
+            with conn.cursor() as cursor:
+                query = """SELECT island_unique_number
+                        FROM user_tb 
+                        WHERE user_id = %s"""
+                cursor.execute(query,user_id)
+                island_unique_numbers = cursor.fetchall()
+                # print(data)
+        except Exception as e:
+            print("user_tb SELECT Exception! : ",e)
+            return 'Exception!' + e 
+
+        # finally:
+        #     conn.close()
+
+        # print(island_unique_numbers)
+        island_unique_number = island_unique_numbers[0][0]
+        # print(island_unique_number)
+        
+        # island_unique_number  => user_nickname, face_encoding
+
+        try:
+
+            # SELECT
+            with conn.cursor() as cursor:
+                query = """SELECT fd.user_nickname, fd.face_encoding
+                        FROM facial_data_tb as fd
+                        JOIN user_tb as ut ON fd.user_id = ut.user_id
+                        WHERE ut.island_unique_number = %s"""
+                
+                cursor.execute(query,island_unique_number)
+                nicknames_encodings = cursor.fetchall()
+                # print(data)
             
+        except Exception as e:  
+            print("facial_data_tb SELECT Exception : ",e)
+
+        # print(len(nicknames_encodings))
+        # print(len(nicknames_encodings[0]))
+        # print(np.array(eval(nicknames_encodings[0][1])).shape)
+
+        # finally:
+        #     conn.close()
+
+        for nickname,encoding in nicknames_encodings:
+            face_encoding_dict[nickname] = np.array(eval(encoding))
+
+        for idx,photo_image in enumerate(photo_images):
+            
+            json_res_one_image_data = {}
+            origin_conv = conv.copy()
+
+            # 0에서 9 사이의 난수 10개 생성하고 문자열로 변환
+            random_numbers = [str(random.randint(0, 9)) for _ in range(10)]
+            random_string = ''.join(random_numbers)
+
             print("------------------ ",idx+1," ------------------")
+            #####################
+            # Model Loading (Ver1)
+            #####################
+            # tokenizer, model, llava_image_processor, context_len,image_aspect_ratio,roles,conv,temperature,max_new_tokens,debug = image_processor.load_llava_model()
+
+            # filename
+            file_name = photo_image.filename.lower()
+
+            # photo_datetime
+            photo_datetime,photo_latitude,photo_longitude = image_processor.get_metadata(photo_image)
+            if photo_datetime=='':
+                photo_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            if photo_latitude=='':
+                photo_latitude = '000.0000000000'
+                photo_longitude = '000.0000000000'
             
-            tokenizer, model, llava_image_processor, context_len,image_aspect_ratio,roles,conv,temperature,max_new_tokens,debug = image_processor.load_llava_model()
+            photo_location = str(photo_latitude) + str(photo_longitude)
 
-            file_data = {}
-            # print(file.read())
-
-            file_data['binary_image'] = base64.b64encode(file.read()).decode('utf-8')
-            file_data = image_processor.get_metadata(file,file_data)
-            file_data['date_time'] = '2019-09-09 13:00:00'
-            # print(type(file))
-            # print(file_data)
-
-            # character_img = image_processor.extract_character(file)
-            # character_img.save('tmp.jpg')
-            # file_data = image_processor.face_recognition(file_data,character_img,face_registration_db[family_id])
-
-
-            file_data = image_processor.face_recognition(file_data,file,face_registration_db[family_id])
+            # character (list)
+            character = image_processor.face_recognition(photo_image,face_encoding_dict)
+            # character origin
+            character_origin = character.copy()
+            character = str(character)
 
             inference_outputs = image_processor.llava_inference_image(
                     tokenizer,
@@ -77,88 +155,119 @@ def images_preprocessing():
                     context_len,
                     image_aspect_ratio,
                     roles,
-                    conv,
+                    origin_conv,
                     temperature,
                     max_new_tokens,
                     debug,
-                    file)
+                    photo_image,
+                    character_origin)
 
-            
-            # print(" before re")
-            # print(" tags :",inference_outputs[0])
-            # print(" summary :",inference_outputs[1])
-            
-            # print(" inference_outputs : ", inference_outputs[1:])
-            tags = re.sub("Places|Place|People|</s>|\\n|:|1. |\.|,,|, ,","",inference_outputs[0])
-            tags = re.sub(r':','',tags)
-            tags = re.sub("2.|3.|4.|5.|6.|7.|8.|9.|10.|11.|12.|13.|14.|15.|Backgrounds|Objects|Background|Object",",",tags)
+            # tags = re.sub("Places|Place|People|</s>|\\n|:|1. |\.|,,|, ,","",inference_outputs[0])
+            # tags = re.sub(r':','',tags)
+            # tags = re.sub("2.|3.|4.|5.|6.|7.|8.|9.|10.|11.|12.|13.|14.|15.|Backgrounds|Objects|Background|Object",",",tags)
 
-            summary = re.sub("summary|</s>|\\n:","",inference_outputs[1])
+            # summary = re.sub("summary|</s>|\\n:","",inference_outputs[1])
+            # tags = translator.translate(tags,dest='ko',src='en').text
 
-            # print(" before transflation")
-            # print(" tags :",tags)
-            # print(" summary :",summary)
+            # summary
+            # summary = translator.translate(summary,dest='ko',src='en').text
 
+            # tags = re.sub(" ","",tags)
+
+            # tags
+            # tags = list(set(tags.split(",")))
+            # tags = str(tags)
+
+            tags = inference_outputs[0]
+            tags = re.sub("</s>","",tags)
+            tags = tags[:900]
             tags = translator.translate(tags,dest='ko',src='en').text
-            summary = translator.translate(summary,dest='ko',src='en').text
-
-            tags = re.sub(" ","",tags)
-
-            # print(" after transflation")
-            # print(" tags :",tags)
-            # print(" summary :",summary)
-
-            tags = list(set(tags.split(",")))
-
-            # print(" to list")
-
-            print(" filename : ",file.filename)
-            print(" date_time : ", file_data['date_time'])
-            print(" character :", file_data['character'])
-            print(" tags :",tags)
-            print(" summary :",summary)
-
-            file_data['tags']=tags
-            file_data['summary']=summary
             
-            all_file_data.append(file_data)
-            # print("Before : ",album_registration_db)
-            album_registration_db[family_id].append(file_data)
-            # print("After : ",album_registration_db)
+            summary = inference_outputs[1]
+            summary = re.sub("</s>","",summary)
+            summary = translator.translate(summary,dest='ko',src='en').text
+            
+            save_name = save_root_family+photo_image.filename.split(".")[0]+'_'+str(character)+'.jpg'
+            PIL_photo_image = Image.open(photo_image)
+            PIL_photo_image.save(save_name)
 
-            save_name = save_root_family+file.filename.split(".")[0]+f'_{file_data["character"]}.jpg'
+            #######################
+            # photo_image to base64
+            #######################
 
-            if str(file_data["character"])=='[]':
-                miss_cnt += 1
+            # photo_image.seek(0)
+            # # photo_image
+            # photo_image= base64.b64encode(photo_image.read()).decode('utf-8')
+            # # photo_thumbnail
+            # photo_thumbnail = base64.b64encode(PIL_photo_image.resize((320,320)).tobytes()).decode('utf-8')
+
+            print("bucket_dir+file_name : ",bucket_dir+family_photo_dir+random_string+'_'+file_name)
+            put_object_result = S3.put_object(s3,bucket,save_name,bucket_dir+family_photo_dir+random_string+'_'+file_name) # Save
+            print("Save Face Data to S3 : ",put_object_result)
+            family_photo_url = S3.get_image_url(s3,bucket,bucket_dir+family_photo_dir+random_string+'_'+file_name)
+            print("Family Photo URL : ",family_photo_url)
+
+            # print(" filename : ",photo_image.filename)
+            # print("user_id : ",user_id, "type : ",type(user_id))
+            # print("island_unique_number : ",island_unique_number, "type : ",type(island_unique_number))
+            # print("photo_datetime : ", photo_datetime, "type : ",type(photo_datetime))
+            # print("character :", character, "type : ",type(character))
+            # print("tags :",tags, "type : ",type(tags))
+            # print("summary :",summary, "type : ",type(summary))
+            # print(type(photo_image))
+            # print(type(photo_thumbnail))
+
+            # print(len(photo_image))
+            # print(len(photo_thumbnail))
+            
+            one_family_photo_data = (user_id,island_unique_number,photo_datetime,photo_location,character,tags,summary,family_photo_url,family_photo_url)
+            # one_image_data = (user_id,island_unique_number,photo_datetime,character,tags,summary)
+            one_json_res_photo_data = {"photo_image":family_photo_url,"character":character_origin,"photo_location":photo_location,"photo_datetime":photo_datetime,"summary":summary}
+            all_family_photo_data.append(one_family_photo_data)
+            all_json_res_photo_data.append(one_json_res_photo_data)
+            print(all_json_res_photo_data)
+        # print(len(all_family_photo_data[0]))
+        # print(len(all_family_photo_data))
+        # print("-----------------------")
+        # try:
+            # INSERT
+
+        try :
+            with conn.cursor() as cursor:
                 
-            # print("save name : ",save_name)
-            save_file = Image.open(file)
-            save_file.save(save_name)
+                query = """INSERT INTO family_photo_tb (user_id,island_unique_number,photo_datetime,photo_location,`character`,tags,summary,photo_image,photo_thumbnail) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+                cursor.executemany(query,all_family_photo_data)
 
-        ##### DB RESET #####
-        # album_registration_db_reset = {}
-        # with open(save_root_db+'album_registration_db.pickle', 'wb') as f:
-        #     pickle.dump(album_registration_db_reset,f)
-        ####################
+            conn.commit()
 
-        ##### DB Origin#####
-        with open(save_root_db+'album_registration_db.pickle', 'wb') as f:
-            pickle.dump(album_registration_db,f)
-        ###################
+        except Exception as e:  
+            print("facial_data_tb INSERT Exception : ",e)
 
-        print("miss_cnt : ",miss_cnt)
-        # print(album_registration_db)
+        # finally:
+        #     conn.close()
+    
+        # except Exception as e:
+        #     print("family_photo_tb INSERT Exception : ",e)
 
         print('Complete Album Registration (POST)')
 
+        res_json={
+                    'data' : all_json_res_photo_data
+                }
+        
         # res_json={
-        #             'message':'저장 완료!',
-        #             'images_count':len(files),
-        #             'description':'Complete Register Family data'
-        #             }
-        res_all_file_data_json = {'data':all_file_data}
+        #             'data' : {
+        #                         'island_unique_number' : island_unique_number,
+        #                         'user_id' : user_id,
+        #                         'message':'사진 저장 완료!',
+        #                         'images_count':len(photo_images),
+        #                         'description':'Complete Register Family data'
+        #                     }
+        #         }
 
-        return jsonify(res_all_file_data_json)
+        return jsonify(res_json)
+        # return 'Complete Album Registration (POST)'
+    
     elif request.method=='GET':
 
         return 'Complete Album Registration (GET)'

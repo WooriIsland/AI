@@ -18,7 +18,7 @@ prompt.suffix
 prompt.system_prompt
 
 # LLM
-model = ChatOpenAI(model="gpt-4", openai_api_key=OPENAI_API_KEY)
+model = ChatOpenAI(model="gpt-3.5-turbo-1106", openai_api_key=OPENAI_API_KEY)
 
 # Memory
 memory = ConversationBufferWindowMemory(ai_prefix="AI Assistant")

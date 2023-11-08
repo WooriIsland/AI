@@ -54,6 +54,10 @@ class Image_Processor():
                     # print("latitude : ",latitude)
                     # print("longitude : ",longitude)
                     if latitude and longitude:
+                        print("#### get_metadata ####")
+                        print("latitude:",latitude)
+                        print("longitude:",longitude)
+                        print("#### get_metadata ####")
                         lat = f"{latitude[0]}° {latitude[1]}' {latitude[2]}'' {gps_info['GPSLatitudeRef']}"
                         lon = f"{longitude[0]}° {longitude[1]}' {longitude[2]}'' {gps_info['GPSLongitudeRef']}"
                         print(f"촬영 위치 (GPS): 위도 {lat}, 경도 {lon}")

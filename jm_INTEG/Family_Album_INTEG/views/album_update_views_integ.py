@@ -9,14 +9,18 @@ bp = Blueprint('album_update_integ',__name__,url_prefix='/album_update_integ')
 conn = pymysql.connect(host=DBConfig.MYSQL_HOST, user=DBConfig.MYSQL_USER, password=DBConfig.MYSQL_PASSWORD, db=DBConfig.MYSQL_DB, charset=DBConfig.MYSQL_CHARSET)
 
 # 가족 앨범 수정
-@bp.route('/update',methods=['GET','POST'])
+@bp.route('/update',methods=['GET','PUT'])
 def update_family_album():
 
-    if request.method=='POST':
+    if request.method=='PUT':
 
         photo_id = request.get_json()['photo_id']
         island_unique_number = request.get_json()['island_unique_number']
         new_summary = request.get_json()['new_summary']
+
+        print("photo_id : ",photo_id)
+        print("island_unique_number : ",island_unique_number)
+        print("new_summary :",new_summary)
 
         try:
 

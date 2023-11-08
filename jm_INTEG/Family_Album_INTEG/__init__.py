@@ -1,5 +1,8 @@
 from flask import Flask
 from config import Config
+# import os
+
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 def create_app():
     

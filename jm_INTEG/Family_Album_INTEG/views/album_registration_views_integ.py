@@ -134,6 +134,12 @@ def images_preprocessing():
 
             # photo_datetime
             photo_datetime,photo_latitude,photo_longitude = image_processor.get_metadata(photo_image)
+
+            print("########")
+            print("latitude:",photo_latitude)
+            print("longitude:",photo_longitude)
+            print("########")
+
             if photo_datetime=='':
                 photo_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             if photo_latitude=='':

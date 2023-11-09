@@ -25,9 +25,9 @@ def search_family_album():
                 query = """SELECT photo_id,photo_image,photo_datetime,photo_location,`character`,summary
                            FROM family_photo_tb
                            WHERE island_unique_number = %s
-                           AND (`character` LIKE %s or tags LIKE %s or summary LIKE %s)
+                           AND (`character` LIKE %s or tags LIKE %s or summary LIKE %s or summary_strip LIKE %s)
                            ORDER BY photo_datetime ASC"""
-                cursor.execute(query, (island_unique_number, f'%{search_keyword}%', f'%{search_keyword}%', f'%{search_keyword}%'))
+                cursor.execute(query, (island_unique_number, f'%{search_keyword}%', f'%{search_keyword}%', f'%{search_keyword}%', f'%{search_keyword}%'))
                 family_photos_data = cursor.fetchall()
                 # print(family_photos_data)
         except Exception as e:
@@ -44,9 +44,13 @@ def search_family_album():
             data['photo_id'] = family_photo_data[0]
             data['photo_image'] = family_photo_data[1]
             # print("photo_datetime : ",str(family_photo_data[1]))
-            data['photo_datetime'] = str(family_photo_data[2])
+            data['photo_datetime'] = str(family_photo_data[2]).split(" ")[0]
 
-            data['photo_location'] = str(family_photo_data[3])
+            photo_location = str(family_photo_data[3]).replace(" ","").split(",")
+            if photo_location[0] == '':
+                data['photo_location'] = ''
+            else:
+                data['photo_location'] = photo_location[6]+" "+photo_location[4]
 
             # print("photo_latitude : ",float(family_photo_data[2]))
             # data['photo_latitude'] = float(family_photo_data[3])

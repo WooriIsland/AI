@@ -45,9 +45,19 @@ def inquiry_family_album():
             data['photo_id'] = family_photo_data[0]
             data['photo_image'] = family_photo_data[1]
             # print("photo_datetime : ",str(family_photo_data[1]))
-            data['photo_datetime'] = str(family_photo_data[2])
+            # data['photo_datetime'] = str(family_photo_data[2])
+            ############
+            # Only Date
+            ############
+            data['photo_datetime'] = str(family_photo_data[2]).split(" ")[0]
 
-            data['photo_location'] = str(family_photo_data[3])
+            photo_location = str(family_photo_data[3]).replace(" ","").split(",")
+            # print(photo_location)
+
+            if photo_location[0] == '':
+                data['photo_location'] = ''
+            else:
+                data['photo_location'] = photo_location[6]+" "+photo_location[4]
 
             # print("photo_latitude : ",float(family_photo_data[2]))
             # data['photo_latitude'] = float(family_photo_data[3])

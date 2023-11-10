@@ -151,7 +151,19 @@ def images_preprocessing():
             character = image_processor.face_recognition(photo_image,face_encoding_dict)
             # character origin
             character_origin = character.copy()
-            character = str(character)
+            print("character : ",character)
+
+            # for char in character:
+            #     if char == 'Unknown':
+            #         character.remove('Unknown')
+
+            character_check = [x for x in character if x != 'Unknown'] 
+
+            print("character_check : ",character_check)
+            
+            character_summary = ",".join(character_check).replace(",","와 ")
+
+            print(" character_summary : ", character_summary)
 
             inference_outputs = image_processor.llava_inference_image(
                     tokenizer,
@@ -183,14 +195,14 @@ def images_preprocessing():
             # tags = list(set(tags.split(",")))
             # tags = str(tags)
 
-            tags = inference_outputs[0]
+            tags = inference_outputs[1]
             tags = re.sub("</s>","",tags)
             tags = tags[:900]
             tags = translator.translate(tags,dest='ko',src='en').text
             
-            summary = inference_outputs[1]
+            summary = inference_outputs[0]
             summary = re.sub("</s>","",summary)
-            summary = translator.translate(summary,dest='ko',src='en').text
+            summary = translator.translate(summary,dest='ko',src='en').text.replace(".","") + " " + character_summary
             summary_strip = summary.replace(" ","")
             
             save_name = save_root_family+photo_image.filename.split(".")[0]+'_'+str(character)+'.jpg'
@@ -226,7 +238,7 @@ def images_preprocessing():
             # print(len(photo_image))
             # print(len(photo_thumbnail))
             
-            one_family_photo_data = (user_id,island_unique_number,photo_datetime,photo_latitude,photo_longitude,photo_location,character,tags,summary,summary_strip,family_photo_url,family_photo_url)
+            one_family_photo_data = (user_id,island_unique_number,photo_datetime,photo_latitude,photo_longitude,photo_location,str(character_origin),tags,summary,summary_strip,family_photo_url,family_photo_url)
             # one_image_data = (user_id,island_unique_number,photo_datetime,character,tags,summary)
 
 
@@ -247,31 +259,35 @@ def images_preprocessing():
         # try:
             # INSERT
 
-        try :
-            with conn.cursor() as cursor:
+        # try :
+        with conn.cursor() as cursor:
+            
+            # query = """INSERT INTO family_photo_tb (user_id,island_unique_number,photo_datetime,photo_latitude,photo_longitude,photo_location,`character`,tags,summary,summary_strip,photo_image,photo_thumbnail) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+            # cursor.executemany(query,all_family_photo_data)
+            # photo_id = cursor.row
+            # print("Last Inserted ID:", photo_id)
+
+            query = """INSERT INTO family_photo_tb (user_id,island_unique_number,photo_datetime,photo_latitude,photo_longitude,photo_location,`character`,tags,summary,summary_strip,photo_image,photo_thumbnail) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+            photo_ids = []
+
+            for idx,one_family_photo_data in enumerate(all_family_photo_data):
+                cursor.execute(query,one_family_photo_data)
                 
-                # query = """INSERT INTO family_photo_tb (user_id,island_unique_number,photo_datetime,photo_latitude,photo_longitude,photo_location,`character`,tags,summary,summary_strip,photo_image,photo_thumbnail) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-                # cursor.executemany(query,all_family_photo_data)
-                # photo_id = cursor.row
-                # print("Last Inserted ID:", photo_id)
+                # Get the last inserted ID for each iteration
+                photo_id = cursor.lastrowid
+                photo_ids.append(photo_id)
 
-                query = """INSERT INTO family_photo_tb (user_id,island_unique_number,photo_datetime,photo_latitude,photo_longitude,photo_location,`character`,tags,summary,summary_strip,photo_image,photo_thumbnail) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-                photo_ids = []
+                all_json_res_photo_data[idx]['photo_id'] = photo_id
 
-                for idx,one_family_photo_data in enumerate(all_family_photo_data):
-                    cursor.execute(query,one_family_photo_data)
-                    
-                    # Get the last inserted ID for each iteration
-                    photo_id = cursor.lastrowid
-                    photo_ids.append(photo_id)
+        print("photo_ids:", photo_ids)
+        conn.commit()
 
-                    all_json_res_photo_data[idx]['photo_id'] = photo_id
 
-            print("photo_ids:", photo_ids)
-            conn.commit()
+        # except Exception as e:  
+        #     print("family_photo_tb INSERT Exception : ",e)
 
-        except Exception as e:  
-            print("family_photo_tb INSERT Exception : ",e)
+
+
 
         # finally:
         #     conn.close()

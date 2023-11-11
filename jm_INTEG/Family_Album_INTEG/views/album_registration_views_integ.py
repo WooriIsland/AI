@@ -142,10 +142,10 @@ def images_preprocessing():
 
             if photo_datetime=='':
                 photo_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            if photo_latitude=='':
+            if photo_latitude==''or photo_latitude==0:
                 photo_latitude = 0
                 photo_longitude = 0
-                photo_location = ''
+                photo_location = '경기도 수지구'
 
             # character (list)
             character = image_processor.face_recognition(photo_image,face_encoding_dict)
@@ -243,10 +243,11 @@ def images_preprocessing():
 
 
             registration_photo_datetime = str(photo_datetime).replace(":","-").split(" ")[0]
-            registration_photo_location = str(photo_location).replace(" ","").split(",")
-            if registration_photo_location[0] == '':
-                registration_photo_location = ''
-            else:
+            registration_photo_location = photo_location
+            print("photo_location : ",photo_location)
+            print("registration_photo_location : " ,registration_photo_location)
+            if registration_photo_location!='경기도 수지구':
+                registration_photo_location = str(photo_location).replace(" ","").split(",")
                 registration_photo_location =  registration_photo_location[6]+" "+registration_photo_location[4]
             
             one_json_res_photo_data = {"photo_image":family_photo_url,"character":character_origin,"photo_location":registration_photo_location,"photo_datetime":registration_photo_datetime,"summary":summary}

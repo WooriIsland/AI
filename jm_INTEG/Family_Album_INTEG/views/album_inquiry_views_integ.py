@@ -52,10 +52,10 @@ def inquiry_family_album():
             data['photo_datetime'] = str(family_photo_data[2]).split(" ")[0]
 
             photo_location = str(family_photo_data[3]).replace(" ","").split(",")
-            # print(photo_location)
+            print("photo_location : ", photo_location)
 
-            if photo_location[0] == '':
-                data['photo_location'] = ''
+            if photo_location[0] == '경기도수지구':
+                data['photo_location'] = '경기도 수지구'
             else:
                 data['photo_location'] = photo_location[6]+" "+photo_location[4]
 

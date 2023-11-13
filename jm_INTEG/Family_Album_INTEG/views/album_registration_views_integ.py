@@ -247,8 +247,21 @@ def images_preprocessing():
             print("photo_location : ",photo_location)
             print("registration_photo_location : " ,registration_photo_location)
             if registration_photo_location!='경기도 수지구':
-                registration_photo_location = str(photo_location).replace(" ","").split(",")
-                registration_photo_location =  registration_photo_location[6]+" "+registration_photo_location[4]
+                registration_photo_location_list = str(photo_location).replace(" ","").split(",")
+                if registration_photo_location_list[-1]=='대한민국':
+                    get_gu = False
+                    for location in registration_photo_location_list[::-1]:
+                        if location[-1]=='구':
+                            registration_photo_location =  location + " "
+                            get_gu = True
+                            continue
+                        if get_gu:
+                            registration_photo_location += location
+                            break
+
+                else:
+                    registration_photo_location_list = str(photo_location).replace(" ","").split(",")
+                    registration_photo_location = registration_photo_location_list[-1] + " " + registration_photo_location_list[0]
             
             one_json_res_photo_data = {"photo_image":family_photo_url,"character":character_origin,"photo_location":registration_photo_location,"photo_datetime":registration_photo_datetime,"summary":summary}
             all_family_photo_data.append(one_family_photo_data)

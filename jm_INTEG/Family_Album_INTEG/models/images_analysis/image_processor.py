@@ -5,6 +5,7 @@ from Family_Album_INTEG.models.rembg.rembg.bg import remove
 from Family_Album_INTEG.models.LLaVA.llava.serve import cli
 from Family_Album_INTEG.models.LLaVA.llava.serve.cli import load_custom_model,inference_image
 import numpy as np
+from geopy.geocoders import Nominatim
 
 class Image_Processor():
 
@@ -17,7 +18,8 @@ class Image_Processor():
         img = Image.open(img)
 
         date_time = ''
-        lat,lon = '',''
+        latitude,longitude = 0,0
+        location=''
 
         try:
             # with Image.open(image_path) as img:
@@ -54,14 +56,25 @@ class Image_Processor():
                     # print("latitude : ",latitude)
                     # print("longitude : ",longitude)
                     if latitude and longitude:
-                        lat = f"{latitude[0]}° {latitude[1]}' {latitude[2]}'' {gps_info['GPSLatitudeRef']}"
-                        lon = f"{longitude[0]}° {longitude[1]}' {longitude[2]}'' {gps_info['GPSLongitudeRef']}"
-                        print(f"촬영 위치 (GPS): 위도 {lat}, 경도 {lon}")
-                        if 'nan' in lat:
-                            print("lat : ",lat)
-                            print("lon : ",lon)
-                            lat = ''
-                            lon = ''
+                        print("#### get_metadata ####")
+                        print("latitude:",latitude)
+                        print("longitude:",longitude)
+                        print("#### get_metadata ####")
+                        # lat = f"{latitude[0]}° {latitude[1]}' {latitude[2]}'' {gps_info['GPSLatitudeRef']}"
+                        # lon = f"{longitude[0]}° {longitude[1]}' {longitude[2]}'' {gps_info['GPSLongitudeRef']}"
+                        # lat = f"{latitude[0]}° {latitude[1]}' {latitude[2]}'' {gps_info['GPSLatitudeRef']}"
+                        geolocator = Nominatim(user_agent="coordinateconverter")
+                        latitude = float(latitude[0])+float(latitude[1])/60+float(latitude[2])/3600
+                        # lon = f"{longitude[0]}° {longitude[1]}' {longitude[2]}'' {gps_info['GPSLongitudeRef']}"
+                        longitude = float(longitude[0])+float(longitude[1])/60+float(longitude[2])/3600
+                        location = geolocator.reverse(str(latitude)+", "+str(longitude))
+                        location = location.address
+                        print(f"촬영 위치 (GPS): 위도 {latitude}, 경도 {longitude}")
+                        if 'nan' in str(latitude):
+                            print("lat : ",latitude)
+                            print("lon : ",longitude)
+                            latitude = 0
+                            longitude = 0
                     else:
                         print("촬영 위치 (GPS) 정보 없음")
                         pass
@@ -71,7 +84,7 @@ class Image_Processor():
         except Exception as e:
             print(f"메타데이터를 추출하는 동안 오류가 발생했습니다: {e}")
 
-        return date_time,lat,lon
+        return date_time,latitude,longitude,location
     
     def extract_character(self,img):
         height, width, channels = 640, 640, 3

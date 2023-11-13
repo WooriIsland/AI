@@ -1,10 +1,8 @@
-from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 from langchain.prompts import MessagesPlaceholder
+from langchain.memory import ConversationBufferWindowMemory
 
 
-chat_history = MessagesPlaceholder(variable_name="chat_history")
-memory = ConversationBufferWindowMemory(memory_key="chat_history", return_messages=True, k=5)
-agent_kwargs={
-    "memory_prompts": [chat_history],
-    "input_variables": ["input", "agent_scratchpad", "chat_history"]
+agent_kwargs = {
+    "extra_prompt_messages": [MessagesPlaceholder(variable_name="chat_history")],
 }
+memory = ConversationBufferWindowMemory(memory_key="chat_history", return_messages=True, k=10)

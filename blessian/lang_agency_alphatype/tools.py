@@ -15,7 +15,7 @@ tools = [
         name="is_called",
         description="""
 This tool must be used first.
-The input for this tool is the entire text entered by the user.
+The input for this tool uses the entire string input as is, including the user's question and information about the current_time, current_user and chatbot_name.
 This tool is used only once for each input from the user.
 """,
         func=lambda x: chains.is_called_chain.run(input=x.split("chatbot_name:")[0], chatbot_name=x.split("chatbot_name:")[1]),
@@ -61,7 +61,7 @@ The output of this tool is always 'No Response' and serves as the Final Answer.
 This tool is used only when the 'next_action' value in the output of another tool is 'general_conversation'.
 This tool cannot be used consecutively for a second time.
 You are a chatbot that responds to people in a friendly and approachable manner.
-이 도구의 입력은 진행상황의 요약을 바탕으로 생성한 적절한 한국어 대답입니다.
+이 도구의 입력은 진행상황의 요약을 바탕으로 생성한 친절한 대답입니다.
 이 도구의 입력은 항상 한국어로 번역되어야 합니다.
 """,
         func=lambda x: x,

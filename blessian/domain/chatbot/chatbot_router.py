@@ -56,14 +56,20 @@ async def chat(chatbot_schema: ChatbotSchema):
     current_time = f" current_time: {datetime.now()} {day_of_the_week[datetime.now().weekday()]}"
     chatbot_name = "까망"
     
-    answer = chatbot.agent_chain.run(
-        input=chatbot_schema.content \
-        + current_time \
-        + f" current_user: {chatbot_schema.user_id}" \
-        + f" chatbot_name: {chatbot_name}"
-    )
-    
-    print("#"*3+answer)
+    answer = None
+    while True:
+        try:
+            answer = chatbot.agent_chain.run(
+                input=chatbot_schema.content \
+                + current_time \
+                + f" current_user: {chatbot_schema.user_id}" \
+                + f" chatbot_name: {chatbot_name}"
+            )
+            break
+        except IndexError as e:
+            print("#"*10 + "I got IndexError...Try again!" + "#"*10)
+
+    print("#"*10 + answer + "#"*10)
     return {
         "island_id": chatbot_schema.island_id,
         "answer": answer, 

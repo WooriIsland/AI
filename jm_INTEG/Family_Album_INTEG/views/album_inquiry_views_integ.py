@@ -51,14 +51,29 @@ def inquiry_family_album():
             ############
             data['photo_datetime'] = str(family_photo_data[2]).split(" ")[0]
 
-            photo_location = str(family_photo_data[3]).replace(" ","").split(",")
-            print("photo_location : ", photo_location)
 
-            if photo_location[0] == '경기도수지구':
-                data['photo_location'] = '경기도 수지구'
-            else:
-                data['photo_location'] = photo_location[6]+" "+photo_location[4]
+            photo_location = str(family_photo_data[3])
 
+            print("photo_location : ",photo_location)
+
+            if photo_location!='경기도 수지구':
+                photo_location_list = str(photo_location).replace(" ","").split(",")
+                if photo_location_list[-1]=='대한민국':
+                    get_gu = False
+                    for location in photo_location_list[::-1]:
+                        if location[-1]=='구':
+                            photo_location =  location + " "
+                            get_gu = True
+                            continue
+                        if get_gu:
+                            photo_location += location
+                            break
+
+                else:
+                    photo_location_list = str(photo_location).replace(" ","").split(",")
+                    photo_location = photo_location_list[-1] + " " + photo_location_list[0]
+
+            data['photo_location'] = photo_location
             # print("photo_latitude : ",float(family_photo_data[2]))
             # data['photo_latitude'] = float(family_photo_data[3])
             # print("photo_longitude : ",float(family_photo_data[3]))

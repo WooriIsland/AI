@@ -64,9 +64,12 @@ class Image_Processor():
                         # lon = f"{longitude[0]}° {longitude[1]}' {longitude[2]}'' {gps_info['GPSLongitudeRef']}"
                         # lat = f"{latitude[0]}° {latitude[1]}' {latitude[2]}'' {gps_info['GPSLatitudeRef']}"
                         geolocator = Nominatim(user_agent="coordinateconverter")
-                        latitude = float(latitude[0])+float(latitude[1])/60+float(latitude[2])/3600
+                        latitude = round(float(latitude[0])+float(latitude[1])/60+float(latitude[2])/3600,6)
                         # lon = f"{longitude[0]}° {longitude[1]}' {longitude[2]}'' {gps_info['GPSLongitudeRef']}"
-                        longitude = float(longitude[0])+float(longitude[1])/60+float(longitude[2])/3600
+                        longitude = round(float(longitude[0])+float(longitude[1])/60+float(longitude[2])/3600,6)
+
+                        print("latitude:",latitude)
+                        print("longitude:",longitude)
                         location = geolocator.reverse(str(latitude)+", "+str(longitude))
                         location = location.address
                         print(f"촬영 위치 (GPS): 위도 {latitude}, 경도 {longitude}")

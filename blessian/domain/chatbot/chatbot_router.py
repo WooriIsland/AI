@@ -70,7 +70,7 @@ async def chat(chatbot_schema: ChatbotSchema):
             print("#"*10 + "I got IndexError...Try again!" + "#"*10)
 
     print("#"*10 + answer + "#"*10)
-    return {
+    final_response = {
         "island_id": chatbot_schema.island_id,
         "answer": answer, 
         "task": "", 
@@ -80,6 +80,10 @@ async def chat(chatbot_schema: ChatbotSchema):
             "date": None, 
             "hour": None, 
             "minute": None, 
-            "content": None
+            "content": None,
         }
     }
+    if "No Response" in answer:
+        final_response["answer"] = ""
+        final_response["task"] = "대기"
+    return final_response

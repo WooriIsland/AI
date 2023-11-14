@@ -7,6 +7,7 @@ from fastapi import APIRouter
 from domain.chatbot.reqeust_schema import ChatbotSchema
 from lang_agency_prototype import chatbots
 from lang_agency_alphatype import chatbot
+from lang_agency_alphatype import memory
 
 router = APIRouter(
     prefix="/api/chatbot",
@@ -70,7 +71,10 @@ async def chat(chatbot_schema: ChatbotSchema):
                 break
             except IndexError as e:
                 print("#"*10 + "I got IndexError...Try again!" + "#"*10)
+    else:
+        memory.memory.chat_memory.add_user_message(chatbot_schema.content)
 
+    print(memory.memory)
     print("#"*10 + answer + "#"*10)
     final_response = {
         "island_id": chatbot_schema.island_id,

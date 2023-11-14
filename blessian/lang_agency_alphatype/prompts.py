@@ -21,7 +21,7 @@ AI Assistant:
 """
 
 is_called_chain_examples=[
-    {"question": "내일 일정 예약해줘 current_time: 2023-11-12 18:26:35.560946 Monday current_user: 아이네 chatbot_name: {chatbot_name}", "answer": "no_return"},
+    {"question": "좋아, 꽃 축제 같은 거 할 거 같은데? current_time: 2023-11-12 18:26:35.560946 Monday current_user: 아이네 chatbot_name: {chatbot_name}", "answer": "no_return"},
     {"question": "릴파야 내일 일정 예약해줘 current_time: 2023-12-13 07:47:35.624323 Tuesday current_user: 징버거 chatbot_name: {chatbot_name}", "answer": "no_return"},
     {"question": " 내일 일정 예약해줘 {chatbot_name}아 current_time: 2023-01-13 02:24:35.654321 Thursday current_user: 릴파 chatbot_name: {chatbot_name}", "answer": "specify_schedule_information"},
     {"question": "아이네! 오늘 기분 어때? current_time: 2023-05-13 03:26:35.866543 Saturday current_user: 주르르 chatbot_name: {chatbot_name}", "answer": "no_return"},

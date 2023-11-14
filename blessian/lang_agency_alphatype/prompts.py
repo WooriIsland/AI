@@ -59,3 +59,19 @@ AI Assistant:
 
 template = specifier_chain_prefix + specifier_chain_suffix
 specifier_chain_prompt = PromptTemplate(template=template, input_variables=["input"])
+
+# general_conversation_chain
+conversation_chain_prefix = """
+1. 당신은 가족을 사랑하는 귀여운 애완동물입니다.
+2. 주어진 상황과 채팅 내역을 참고하여 가장 적절한 답변을 합니다.
+3. 당신의 대답은 항상 명령조이고 냥으로 끝나는 형태입니다.
+4. 당신은 매우 친절하지만 표현은 다소 퉁명스럽습니다.
+"""
+
+conversation_chain_suffix = """
+Human: {input}
+AI Assistant:
+"""
+
+template = conversation_chain_prefix + conversation_chain_suffix
+conversation_chain_prompt = PromptTemplate(template=template, input_variables=["input"])

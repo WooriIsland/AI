@@ -57,17 +57,19 @@ async def chat(chatbot_schema: ChatbotSchema):
     chatbot_name = "까망"
     
     answer = None
-    while True:
-        try:
-            answer = chatbot.agent_chain.run(
-                input=chatbot_schema.content \
-                + current_time \
-                + f" current_user: {chatbot_schema.user_id}" \
-                + f" chatbot_name: {chatbot_name}"
-            )
-            break
-        except IndexError as e:
-            print("#"*10 + "I got IndexError...Try again!" + "#"*10)
+    if chatbot_name in chatbot_schema.content:
+        
+        while True:
+            try:
+                answer = chatbot.agent_chain.run(
+                    input=chatbot_schema.content \
+                    + current_time \
+                    + f" current_user: {chatbot_schema.user_id}" \
+                    + f" chatbot_name: {chatbot_name}"
+                )
+                break
+            except IndexError as e:
+                print("#"*10 + "I got IndexError...Try again!" + "#"*10)
 
     print("#"*10 + answer + "#"*10)
     final_response = {

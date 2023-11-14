@@ -7,6 +7,7 @@ from fastapi import APIRouter
 from domain.chatbot.reqeust_schema import ChatbotSchema
 from lang_agency_prototype import chatbots
 from lang_agency_alphatype import chatbot
+from lang_agency_alphatype import memory
 
 router = APIRouter(
     prefix="/api/chatbot",
@@ -56,19 +57,24 @@ async def chat(chatbot_schema: ChatbotSchema):
     current_time = f" current_time: {datetime.now()} {day_of_the_week[datetime.now().weekday()]}"
     chatbot_name = "까망"
     
-    answer = None
-    while True:
-        try:
-            answer = chatbot.agent_chain.run(
-                input=chatbot_schema.content \
-                + current_time \
-                + f" current_user: {chatbot_schema.user_id}" \
-                + f" chatbot_name: {chatbot_name}"
-            )
-            break
-        except IndexError as e:
-            print("#"*10 + "I got IndexError...Try again!" + "#"*10)
+    answer = ""
+    if chatbot_name in chatbot_schema.content:
+        
+        while True:
+            try:
+                answer = chatbot.agent_chain.run(
+                    input=chatbot_schema.content \
+                    + current_time \
+                    + f" current_user: {chatbot_schema.user_id}" \
+                    + f" chatbot_name: {chatbot_name}"
+                )
+                break
+            except IndexError as e:
+                print("#"*10 + "I got IndexError...Try again!" + "#"*10)
+    else:
+        memory.memory.chat_memory.add_user_message(chatbot_schema.content)
 
+    print(memory.memory)
     print("#"*10 + answer + "#"*10)
     final_response = {
         "island_id": chatbot_schema.island_id,
@@ -83,7 +89,6 @@ async def chat(chatbot_schema: ChatbotSchema):
             "content": None,
         }
     }
-    if "No Response" in answer:
-        final_response["answer"] = ""
+    if answer == "":
         final_response["task"] = "대기"
     return final_response

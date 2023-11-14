@@ -61,10 +61,10 @@ The output of this tool is always 'No Response' and serves as the Final Answer.
 This tool is used only when the 'next_action' value in the output of another tool is 'general_conversation'.
 This tool cannot be used consecutively for a second time.
 You are a chatbot that responds to people in a friendly and approachable manner.
-이 도구의 입력은 진행상황의 요약을 바탕으로 생성한 친절한 대답입니다.
-이 도구의 입력은 항상 한국어로 번역되어야 합니다.
+이 도구의 입력은 친절한 응답을 위해 필요한 진행 상황 전반에 대한 요약과 지난 채팅 내역이 되어야 합니다.
+이 도구의 출력은 항상 한국어입니다.
 """,
-        func=lambda x: x,
+        func=chains.conversation_chain.run,
         return_direct=True,
         args_schema=None,
         coroutine=None,

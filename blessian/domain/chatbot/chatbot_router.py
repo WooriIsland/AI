@@ -56,7 +56,7 @@ async def chat(chatbot_schema: ChatbotSchema):
     current_time = f" current_time: {datetime.now()} {day_of_the_week[datetime.now().weekday()]}"
     chatbot_name = "까망"
     
-    answer = None
+    answer = ""
     if chatbot_name in chatbot_schema.content:
         
         while True:
@@ -85,7 +85,6 @@ async def chat(chatbot_schema: ChatbotSchema):
             "content": None,
         }
     }
-    if "No Response" in answer:
-        final_response["answer"] = ""
+    if answer == "":
         final_response["task"] = "대기"
     return final_response

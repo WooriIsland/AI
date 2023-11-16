@@ -29,7 +29,7 @@ def hello_woori():
         #     query = "select * FROM user_tb"
         #     cursor.execute(query)
         
-    finally:
-        conn.close()
+    except Exception as e:  
+        print("SELECT * FROM user_tb : ",e)
 
     return 'Welcome to Woori-Family-Island'

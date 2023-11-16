@@ -75,7 +75,7 @@ def search_family_album():
 
             # print("character : ",eval(family_photo_data[4]))
             # print("character : ",type(eval((family_photo_data[4]))))
-            data['character'] = eval(family_photo_data[4])     
+            data['character'] = eval(family_photo_data[4])
             # print("summary : ",type(family_photo_data[5]))
             data['summary'] = family_photo_data[5]      
             

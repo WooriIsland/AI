@@ -136,11 +136,12 @@ def images_preprocessing():
             photo_datetime,photo_latitude,photo_longitude,photo_location = image_processor.get_metadata(photo_image)
 
             print("########")
+            print("photo_datetime :",photo_datetime)
             print("latitude:",photo_latitude)
             print("longitude:",photo_longitude)
             print("########")
 
-            if photo_datetime=='':
+            if photo_datetime=='' or photo_datetime==None:
                 photo_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             if photo_latitude==''or photo_latitude==0:
                 photo_latitude = 0
@@ -195,12 +196,12 @@ def images_preprocessing():
             # tags = list(set(tags.split(",")))
             # tags = str(tags)
 
-            tags = inference_outputs[1]
+            tags = inference_outputs[2]
             tags = re.sub("</s>","",tags)
             tags = tags[:900]
             tags = translator.translate(tags,dest='ko',src='en').text
             
-            summary = inference_outputs[0]
+            summary = inference_outputs[1].split(",")[0]
             summary = re.sub("</s>","",summary)
             summary = translator.translate(summary,dest='ko',src='en').text.replace(".","") + " " + character_summary
             summary_strip = summary.replace(" ","")

@@ -196,12 +196,12 @@ def images_preprocessing():
             # tags = list(set(tags.split(",")))
             # tags = str(tags)
 
-            tags = inference_outputs[2]
+            tags = inference_outputs[1]
             tags = re.sub("</s>","",tags)
             tags = tags[:900]
             tags = translator.translate(tags,dest='ko',src='en').text
             
-            summary = inference_outputs[1].split(",")[0]
+            summary = inference_outputs[0].split(",")[0]
             summary = re.sub("</s>","",summary)
             summary = translator.translate(summary,dest='ko',src='en').text.replace(".","") + " " + character_summary
             summary_strip = summary.replace(" ","")

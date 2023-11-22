@@ -70,7 +70,13 @@ class Image_Processor():
 
                         print("latitude:",latitude)
                         print("longitude:",longitude)
-                        location = geolocator.reverse(str(latitude)+", "+str(longitude))
+
+                        ###############################
+                        ### 11_22 address in Korean ###
+                        ###############################
+                        # location = geolocator.reverse(str(latitude)+", "+str(longitude)) #before
+                        location = geolocator.reverse(str(latitude)+", "+str(longitude),language='ko') # after
+
                         location = location.address
                         print(f"촬영 위치 (GPS): 위도 {latitude}, 경도 {longitude}")
                         if 'nan' in str(latitude):

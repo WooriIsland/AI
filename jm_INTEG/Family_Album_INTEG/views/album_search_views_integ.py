@@ -1,6 +1,7 @@
 from flask import Blueprint,request,jsonify
 import pymysql
 from config import DBConfig
+import re
 
 bp = Blueprint('album_search_integ',__name__,url_prefix='/album_search_integ')
 
@@ -25,9 +26,9 @@ def search_family_album():
                 query = """SELECT photo_id,photo_image,photo_datetime,photo_location,`character`,summary
                            FROM family_photo_tb
                            WHERE island_unique_number = %s
-                           AND (`character` LIKE %s or tags LIKE %s or summary LIKE %s or summary_strip LIKE %s)
+                           AND (`character` LIKE %s or tags LIKE %s or summary LIKE %s or summary_strip LIKE %s or photo_location LIKE %s)
                            ORDER BY photo_datetime ASC"""
-                cursor.execute(query, (island_unique_number, f'%{search_keyword}%', f'%{search_keyword}%', f'%{search_keyword}%', f'%{search_keyword}%'))
+                cursor.execute(query, (island_unique_number, f'%{search_keyword}%', f'%{search_keyword}%', f'%{search_keyword}%', f'%{search_keyword}%', f'%{search_keyword}%'))
                 family_photos_data = cursor.fetchall()
                 # print(family_photos_data)
         except Exception as e:
@@ -63,9 +64,29 @@ def search_family_album():
                             photo_location += location
                             break
 
+                #############################
+                ### 11_22 foreign address ###
+                #############################
+
+                # else:
+                #     registration_photo_location_list = str(photo_location).replace(" ","").split(",")
+                #     registration_photo_location = registration_photo_location_list[-1] + " " + registration_photo_location_list[0]
+
                 else:
-                    photo_location_list = str(photo_location).replace(" ","").split(",")
-                    photo_location = photo_location_list[-1] + " " + photo_location_list[0]
+                    registration_photo_location_list = str(photo_location).replace(" ","").split(",")
+
+                    korean_strings = []
+                    for x in registration_photo_location_list:
+                        # 정규표현식을 사용하여 한글 문자열 추출
+                        korean_match = re.search('[가-힣]+', x)
+
+                        if korean_match:
+                            korean_strings.append(korean_match.group())
+                    
+                    if korean_strings[0] != korean_strings[-1]:
+                        photo_location = korean_strings[-1] + " " + korean_strings[0]
+                    else:
+                        photo_location = korean_strings[-1]
             
             data['photo_location'] = photo_location
             # print("photo_latitude : ",float(family_photo_data[2]))

@@ -2,6 +2,7 @@ from flask import Blueprint,request,jsonify
 import pickle
 import pymysql
 from config import DBConfig
+import re
 
 bp = Blueprint('album_inquiry_integ',__name__,url_prefix='/album_inquiry_integ')
 
@@ -99,9 +100,29 @@ def inquiry_family_album():
                             photo_location += location
                             break
 
+                #############################
+                ### 11_22 foreign address ###
+                #############################
+
+                # else:
+                #     registration_photo_location_list = str(photo_location).replace(" ","").split(",")
+                #     registration_photo_location = registration_photo_location_list[-1] + " " + registration_photo_location_list[0]
+
                 else:
-                    photo_location_list = str(photo_location).replace(" ","").split(",")
-                    photo_location = photo_location_list[-1] + " " + photo_location_list[0]
+                    registration_photo_location_list = str(photo_location).replace(" ","").split(",")
+
+                    korean_strings = []
+                    for x in registration_photo_location_list:
+                        # 정규표현식을 사용하여 한글 문자열 추출
+                        korean_match = re.search('[가-힣]+', x)
+
+                        if korean_match:
+                            korean_strings.append(korean_match.group())
+                    
+                    if korean_strings[0] != korean_strings[-1]:
+                        photo_location = korean_strings[-1] + " " + korean_strings[0]
+                    else:
+                        photo_location = korean_strings[-1]
 
             data['photo_location'] = photo_location
             # print("photo_latitude : ",float(family_photo_data[2]))

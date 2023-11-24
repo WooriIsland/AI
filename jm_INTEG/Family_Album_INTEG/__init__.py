@@ -8,11 +8,12 @@ def create_app():
     
     app = Flask(__name__, instance_relative_config=True)
 
-    from .views import main_views_integ,face_registration_views_integ,album_registration_views_integ,album_inquiry_views_integ,album_update_views_integ,album_delete_views_integ,album_search_views_integ
+    from .views import main_views_integ,face_registration_views_integ,album_registration_views_integ,album_inquiry_views_integ,album_update_views_integ,album_delete_views_integ,album_search_views_integ,album_decoration_inquiry_views_integ
     app.register_blueprint(main_views_integ.bp)
     app.register_blueprint(face_registration_views_integ.bp)
     app.register_blueprint(album_registration_views_integ.bp)
     app.register_blueprint(album_inquiry_views_integ.bp)
+    app.register_blueprint(album_decoration_inquiry_views_integ.bp)
     app.register_blueprint(album_update_views_integ.bp)
     app.register_blueprint(album_delete_views_integ.bp)
     app.register_blueprint(album_search_views_integ.bp)

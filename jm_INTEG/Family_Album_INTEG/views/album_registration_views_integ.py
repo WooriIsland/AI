@@ -136,11 +136,12 @@ def images_preprocessing():
             photo_datetime,photo_latitude,photo_longitude,photo_location = image_processor.get_metadata(photo_image)
 
             print("########")
+            print("photo_datetime :",photo_datetime)
             print("latitude:",photo_latitude)
             print("longitude:",photo_longitude)
             print("########")
 
-            if photo_datetime=='':
+            if photo_datetime=='' or photo_datetime==None:
                 photo_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             if photo_latitude==''or photo_latitude==0:
                 photo_latitude = 0
@@ -200,7 +201,7 @@ def images_preprocessing():
             tags = tags[:900]
             tags = translator.translate(tags,dest='ko',src='en').text
             
-            summary = inference_outputs[0]
+            summary = inference_outputs[0].split(",")[0]
             summary = re.sub("</s>","",summary)
             summary = translator.translate(summary,dest='ko',src='en').text.replace(".","") + " " + character_summary
             summary_strip = summary.replace(" ","")
@@ -258,10 +259,29 @@ def images_preprocessing():
                         if get_gu:
                             registration_photo_location += location
                             break
+                
+                #############################
+                ### 11_22 foreign address ###
+                #############################
 
+                # else:
+                #     registration_photo_location_list = str(photo_location).replace(" ","").split(",")
+                #     registration_photo_location = registration_photo_location_list[-1] + " " + registration_photo_location_list[0]
                 else:
                     registration_photo_location_list = str(photo_location).replace(" ","").split(",")
-                    registration_photo_location = registration_photo_location_list[-1] + " " + registration_photo_location_list[0]
+
+                    korean_strings = []
+                    for x in registration_photo_location_list:
+                        # 정규표현식을 사용하여 한글 문자열 추출
+                        korean_match = re.search('[가-힣]+', x)
+
+                        if korean_match:
+                            korean_strings.append(korean_match.group())
+                    
+                    if korean_strings[0] != korean_strings[-1]:
+                        registration_photo_location = korean_strings[-1] + " " + korean_strings[0]
+                    else:
+                        registration_photo_location = korean_strings[-1]
             
             one_json_res_photo_data = {"photo_image":family_photo_url,"character":character_origin,"photo_location":registration_photo_location,"photo_datetime":registration_photo_datetime,"summary":summary}
             all_family_photo_data.append(one_family_photo_data)

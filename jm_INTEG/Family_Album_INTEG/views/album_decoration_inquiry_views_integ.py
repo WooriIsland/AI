@@ -4,11 +4,11 @@ import pymysql
 from config import DBConfig
 import re
 
-bp = Blueprint('album_inquiry_integ',__name__,url_prefix='/album_inquiry_integ')
+bp = Blueprint('album_decoration_inquiry_integ',__name__,url_prefix='/album_decoration_inquiry_integ')
 
 # 가족 앨범 조회
-@bp.route('/inquiry',methods=['GET','POST'])
-def inquiry_family_album():
+@bp.route('/decoration_inquiry',methods=['GET','POST'])
+def decoration_inquiry_family_album():
 
     # DB
     conn = pymysql.connect(host=DBConfig.MYSQL_HOST, user=DBConfig.MYSQL_USER, password=DBConfig.MYSQL_PASSWORD, db=DBConfig.MYSQL_DB, charset=DBConfig.MYSQL_CHARSET)
@@ -20,36 +20,6 @@ def inquiry_family_album():
 
         island_unique_number = request.get_json()['island_unique_number']
         family_photos = []
-        
-        # user_check
-        user_id = request.get_json()['user_id']
-        available = True
-
-        try:
-
-            # SELECT
-            with conn.cursor() as cursor:
-                query = """SELECT user_id,user_nickname
-                           FROM facial_data_tb
-                           WHERE user_id = %s"""
-                cursor.execute(query,(user_id,))
-                user_id_data = cursor.fetchall()
-                print(user_id_data)
-                print(len(user_id_data))
-        except Exception as e:
-            print("facial_data_tb SELECT Exception! : ",e)
-            return 'Exception!' + e
-        
-        # if user_id not in user_tb
-        if not user_id_data:
-
-            # res_json = {    
-            #             'available' : False,
-            #             'data': []
-            #             }
-
-            # return jsonify(res_json)
-            available = False
 
         try:
 
@@ -141,7 +111,7 @@ def inquiry_family_album():
             family_photos.append(data)
 
         res_json = {    
-                        'available' : available,
+                        'available' : True,
                         'data': family_photos
                     }
 
@@ -149,4 +119,4 @@ def inquiry_family_album():
     
     elif request.method=='GET':
 
-        return 'Complete Album Inquiry (GET)'
+        return 'Complete Album Decoration Inquiry (GET)'

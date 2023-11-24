@@ -48,7 +48,7 @@ You are a chatbot that responds to people in a friendly and approachable manner.
     Tool(
         name="event_recommendation",
         description="""
-Useful only when the value of 'next_action' in the output of the 'is_called' tool is 'event_recommendation'.
+Useful for recommending events, festivals, and performances.
 The input for this tool is the user's requirements expressed in Korean.
 The result of this tool is a JSON that includes the 'recommend' field representing the result of the function and a 'next_action' value of 'general_conversation'.
 """,

@@ -8,7 +8,7 @@ specifier_chain_prefix = """
 1. Analyze the user's input to estimate the components of the schedule.
 2. The schedule components should include "schedule_management_type", "schedule_content", "members", "year", "month", "date", "hour", and "minute".
 3. The value of 'members' is an array containing the names of individuals participating in the schedule, and the name of the current user's in the conversation is included by default. The chatbot is not included.
-4. The type of schedule management can be one of "schedule registration," "schedule inquiry", or "schedule deletion."
+4. The type of schedule management can be one of "create", "retrieve,", "update", or "delete."
 5. The output format is a JSON-formatted string including "schedule_management_type", "schedule_content", "members", "year", "month", "date", "hour", "minute", and "next_action".
 6. If there are elements in the user's input that cannot be estimated, the value of those elements will be null.
 7. If there are no null elements among the schedule components, the "next_action" will be "schedule_management."

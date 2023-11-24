@@ -23,11 +23,20 @@ def search_family_album():
 
             # SELECT
             with conn.cursor() as cursor:
+                ######################
+                ### ORDER BY 11_24 ###
+                ######################
+                # query = """SELECT photo_id,photo_image,photo_datetime,photo_location,`character`,summary
+                #            FROM family_photo_tb
+                #            WHERE island_unique_number = %s
+                #            AND (`character` LIKE %s or tags LIKE %s or summary LIKE %s or summary_strip LIKE %s or photo_location LIKE %s)
+                #            ORDER BY photo_datetime ASC"""
+
                 query = """SELECT photo_id,photo_image,photo_datetime,photo_location,`character`,summary
                            FROM family_photo_tb
                            WHERE island_unique_number = %s
                            AND (`character` LIKE %s or tags LIKE %s or summary LIKE %s or summary_strip LIKE %s or photo_location LIKE %s)
-                           ORDER BY photo_datetime ASC"""
+                           ORDER BY LENGTH(`character`)"""
                 cursor.execute(query, (island_unique_number, f'%{search_keyword}%', f'%{search_keyword}%', f'%{search_keyword}%', f'%{search_keyword}%', f'%{search_keyword}%'))
                 family_photos_data = cursor.fetchall()
                 # print(family_photos_data)

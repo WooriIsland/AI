@@ -43,7 +43,7 @@ for page_idx in tqdm(range(num_pages)):
 
         events += event + "\n"
         
-p = Path("lang_agency_alphatype/data/data.txt")
+p = Path("lang_agency_betatype/data/data.txt")
 p.write_text(events, encoding="utf-8")
 
 

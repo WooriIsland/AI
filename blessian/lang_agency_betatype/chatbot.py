@@ -5,8 +5,7 @@ from langchain.agents import AgentType, initialize_agent
 from langchain.chat_models import ChatOpenAI
 import dotenv
 
-from lang_agency_alphatype import tools
-from lang_agency_alphatype import memory
+from lang_agency_betatype import tools, memory
 
 
 # llm

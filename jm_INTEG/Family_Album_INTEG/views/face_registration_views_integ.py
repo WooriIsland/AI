@@ -92,11 +92,14 @@ def get_face_img():
         try:
             # INSERT
             with conn.cursor() as cursor:
+
+                # print("user_id type ******", type(user_id))
                 
                 query = """INSERT INTO user_tb (user_id,island_unique_number) 
                             VALUES (%s,%s)"""
                 cursor.execute(query,(user_id,island_unique_number))
 
+                # print("INSERT user_tb Complete*********************************************")
                 query = """INSERT INTO facial_data_tb (user_id,user_nickname,face_encoding,face_image) 
                             VALUES (%s,%s,%s,%s)"""
                 cursor.execute(query,(user_id,user_nickname,face_encoding,face_image_url))

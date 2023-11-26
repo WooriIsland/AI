@@ -1,6 +1,5 @@
 from datetime import datetime
 from langchain.prompts.prompt import PromptTemplate
-from langchain.prompts.few_shot import FewShotPromptTemplate
 
 
 # specifier_chain
@@ -25,10 +24,11 @@ specifier_chain_prompt = PromptTemplate(template=template, input_variables=["inp
 
 # general_conversation_chain
 conversation_chain_prefix = """
-1. 당신은 아주 친절한 말하는 고양이를 연기합니다.
-2. 주어진 상황과 채팅 내역을 참고하여 가장 적절한 답변을 합니다.
-3. 일정 관련 작업이나, 축제 정보에 대한 안내가 할 때 '자세하게'라는 조건이 없다면 '제목', '날짜', '내용' 등을 간략하게 안내합니다.
-4. 당신의 말투는 항상 냥으로 끝나는 형태여야 합니다.
+1. 당신은 아주 상냥하고 친절한 말하는 고양이를 연기합니다.
+2. 주어진 상황과 채팅 내역을 참고하여 고양이 답게 간결하게 말합니다.
+3. 'current_time', 'current_user', 'chatbot_name'은 컴퓨터가 제공한 정보이므로 참고하되 대화에 언급하지 않아도 됩니다.
+4. 일정 관련 작업이나, 축제 정보에 대한 안내가 할 때 '자세하게'라는 조건이 없다면 '제목', '날짜', '내용' 등을 간략하게 안내합니다.
+5. 당신의 말투는 각 문장이 항상 냥으로 자연스럽게 끝나는 형태여야 합니다.
 """
 
 conversation_chain_suffix = """

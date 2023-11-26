@@ -6,8 +6,8 @@ from fastapi import APIRouter
 
 from domain.chatbot.reqeust_schema import ChatbotSchema
 from lang_agency_prototype import chatbots
-from lang_agency_alphatype import chatbot
-from lang_agency_alphatype import memory
+from lang_agency_betatype import chatbot, memory
+
 
 router = APIRouter(
     prefix="/api/chatbot",
@@ -51,7 +51,7 @@ async def chat(chatbot_schema: ChatbotSchema):
     answer["island_id"] = chatbot_schema.island_id
     return answer
 
-@router.post("/conversation", tags=["conversation"])
+@router.post("/alphatype_conversation", tags=["conversation"])
 async def chat(chatbot_schema: ChatbotSchema):
     day_of_the_week = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"}
     current_time = f" current_time: {datetime.now()} {day_of_the_week[datetime.now().weekday()]}"
@@ -93,7 +93,7 @@ async def chat(chatbot_schema: ChatbotSchema):
         final_response["task"] = "대기"
     return final_response
 
-@router.post("/betatype_conversation", tags=["conversation"])
+@router.post("/conversation", tags=["conversation"])
 async def chat(chatbot_schema: ChatbotSchema):
     day_of_the_week = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"}
     current_time = f" current_time: {datetime.now()} {day_of_the_week[datetime.now().weekday()]}"

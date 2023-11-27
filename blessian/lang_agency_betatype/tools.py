@@ -52,7 +52,6 @@ You are a chatbot that responds to people in a friendly and approachable manner.
 Useful for recommending events, festivals, and performances.
 The input for this tool is the user's requirements expressed in Korean.
 The result of this tool is a JSON with 'recommend' and 'next_action' fields. 'Recommend' contains information about events or festivals, and the value of 'next_action' is always 'general_conversation.'
-This tool cannot be the Final Answer
 """,
         func=query_engine.query,
         return_direct=False,

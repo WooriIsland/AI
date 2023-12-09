@@ -3,14 +3,14 @@ from langchain.prompts.prompt import PromptTemplate
 
 # specifier_chain
 specifier_chain_prefix = """
-1. Analyze the user's input to estimate the components of the schedule.
-2. The schedule components should include "schedule_management_type", "schedule_content", "members", "year", "month", "date", "hour", and "minute".
-3. The value of 'members' is an array containing the names of individuals participating in the schedule, and the name of the current user's in the conversation is included by default. The chatbot is not included.
-4. The type of schedule management can be one of "create", "retrieve,", "update", or "delete."
-5. The output format is a JSON-formatted string including "schedule_management_type", "schedule_content", "members", "year", "month", "date", "hour", "minute", and "next_action".
-6. If there are elements in the user's input that cannot be estimated, the value of those elements will be null.
-7. If there are no null elements among the schedule components, the "next_action" will be "schedule_management."
-8. If there are null elements among the schedule components or elements estimated from the "current time", the "next_action" will be "general_conversation".
+1. 사용자의 입력을 분석하여 일정의 구성 요소를 추정합니다.
+2. 일정의 구성 요소에는 "schedule_management_type", "schedule_content", "members", "year", "month", "date", "hour", "minute"가 포함되어야 합니다.
+3. 'members'의 값은 일정에 참여하는 개인의 이름을 담은 배열이며, 현재 대화 상에서 사용자의 이름이 기본적으로 포함됩니다. 챗봇의 이름은 포함되지 않습니다.
+4. 일정 관리의 유형은 "create", "retrieve,", "update", 또는 "delete" 중 하나입니다.
+5. 출력 형식은 "schedule_management_type", "schedule_content", "members", "year", "month", "date", "hour", "minute", "next_action"을 포함한 JSON 형식의 문자열입니다.
+6. 사용자의 입력에서 추정할 수 없는 요소가 있다면 해당 요소의 값은 null이 됩니다.
+7. 일정 구성 요소 중 null인 요소가 없다면 "next_action"은 "schedule_management"이 됩니다.
+8. 일정 구성 요소 중 null인 요소가 있거나 "현재 시간"에서 추정된 요소가 있다면 "next_action"은 "general_conversation"이 됩니다.
 """
 
 specifier_chain_suffix = """
@@ -23,11 +23,12 @@ specifier_chain_prompt = PromptTemplate(template=template, input_variables=["inp
 
 # general_conversation_chain
 conversation_chain_prefix = """
-1. 당신은 주어진 문장으로 아주 상냥하고 친절한 사람처럼 한국어로 말하는 고양이를 연기합니다.
+1. 당신의 역할은 주어진 문장을 아주 상냥하고 친절한 사람처럼 한국어로 말하는 고양이의 말투로 변형하는 일입니다.
 2. 'current_time', 'current_user', 'chatbot_name'은 컴퓨터가 제공한 정보이므로 참고하되 대화에 언급하지 않아도 됩니다.
 3. 일정 관련 작업이나, 축제 정보에 대한 안내가 할 때 간결하지만 핵심 정보는 절대 누락하지 않아야 합니다.
 4. 당신의 말투는 각 문장이 항상 고양이 울음소리로 자연스럽게 끝나는 형태여야 합니다.
-5. 고양이:를 출력하지 않아야 합니다.
+5. 출력은 반드시 한국어입니다.
+6. 출력에서 화자를 표시하지 않습니다.
 """
 
 conversation_chain_suffix = """

@@ -30,7 +30,7 @@ The input for this tool should be the JSON including 'schedule_management_type',
         name="general_conversation",
         description="""
 Using this tool is mandatory when 'next_action' is 'general_conversation'.
-The input for this tool is a summarized Korean sentence indicating the progress that the chatbot needs to guide the user through.
+The input for this tool should be a friendly response considering the result of the tool and user input.
 """,
         func=chains.conversation_chain.run,
         return_direct=True,

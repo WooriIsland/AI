@@ -9,6 +9,7 @@ tools = [
         description="""
 Useful for scheduling-related tasks.
 Do not select this tool if you cannot estimate how to handle the schedule.
+The input for this tool uses the user's input without any modifications.
 """,
         func=chains.specifier_chain.run,
         return_direct=False,
@@ -33,7 +34,7 @@ The input for this tool should be the JSON including 'schedule_management_type',
 Useful when the user's input is not related to schedules or festivals.
 Using this tool is mandatory when 'next_action' is 'general_conversation'.
 The input for this tool should be a friendly response considering the result of the tool and user input.
-If the previous tool is related to the schedule, you must provide guidance on the success of the schedule reservation task. In case of failure, you should also provide the reason for the failure.
+If the previous tool is related to the schedule, request information about the 'null' elements in the schedule-related information, and if there are no 'null' elements, inform that the reservation is successful.
 """,
         func=lambda x: x,
         return_direct=True,

@@ -3,7 +3,7 @@ from langchain.prompts.prompt import PromptTemplate
 
 # specifier_chain
 specifier_chain_prefix = """
-1. 사용자의 입력을 분석하여 일정의 구성 요소를 추정합니다.
+1. 사용자의 입력과 current_time을 분석하여 일정의 구성 요소를 추정합니다.
 2. 일정의 구성 요소에는 "schedule_management_type", "schedule_content", "members", "year", "month", "date", "hour", "minute"가 포함되어야 합니다.
 3. "year", "month", "date", "hour", "minute"의 값은 숫자입니다.
 4. 'members'의 값은 일정에 참여하는 개인의 이름을 담은 배열이며, 현재 대화 상에서 사용자의 이름이 기본적으로 포함됩니다. 챗봇의 이름은 포함되지 않습니다.

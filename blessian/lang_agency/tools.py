@@ -34,6 +34,7 @@ The input for this tool should be the JSON including 'schedule_management_type',
 Useful when the user's input is not related to schedules or festivals.
 Using this tool is mandatory when 'next_action' is 'general_conversation'.
 The input for this tool should be a friendly response considering the result of the tool and user input.
+If the previous tool is related to the schedule, interpret the schedule information
 If the previous tool is related to the schedule, request information about the 'null' elements in the schedule-related information, and if there are no 'null' elements, inform that the reservation is successful.
 """,
         func=lambda x: x,

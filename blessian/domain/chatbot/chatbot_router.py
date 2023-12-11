@@ -147,8 +147,8 @@ async def chat(chatbot_schema: ChatbotSchema):
         
         while True:
             try:
-                answer = chatbot.agent_chain.run(
-                    input=chatbot_schema.content \
+                answer = chatbot.chatbot(
+                    chatbot_schema.content \
                     + current_time \
                     + f" current_user: {chatbot_schema.user_id}" \
                     + f" chatbot_name: {chatbot_name}"

@@ -8,7 +8,10 @@ from lang_agency import chains, get_event_info
 tools = [
     Tool(
         name="specify_schedule_information",
-        description="Useful for scheduling-related tasks.",
+        description="""
+Useful for scheduling-related tasks.
+Do not select this tool if you cannot estimate how to handle the schedule.
+""",
         func=chains.specifier_chain.run,
         return_direct=False,
         args_schema=None,
@@ -29,6 +32,7 @@ The input for this tool should be the JSON including 'schedule_management_type',
     Tool(
         name="general_conversation",
         description="""
+Useful when the user's input is not related to schedules or festivals.
 Using this tool is mandatory when 'next_action' is 'general_conversation'.
 The input for this tool should be a friendly response considering the result of the tool and user input.
 """,

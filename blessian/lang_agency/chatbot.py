@@ -5,7 +5,7 @@ from langchain.agents import AgentType, initialize_agent
 from langchain.chat_models import ChatOpenAI
 import dotenv
 
-from lang_agency import tools, memory
+from lang_agency import tools, memory, chains
 
 
 # llm
@@ -32,3 +32,7 @@ agent_chain = initialize_agent(
     # return_intermediate_steps=True,
     early_stopping_method="generate",
 )
+
+def chatbot(inputs: str) -> str:
+    answer = agent_chain.run(input=inputs)
+    return chains.conversation_chain.predict(input=answer)

@@ -1,0 +1,9 @@
+prompts = ['You are responsible for explaining photos taken with family or friends.',
+        #    'You are responsible for explaining photos taken with family or friends. If you understand, please answer "Yes".',
+        #    "There are two main things you need to do. The first thing to do is to list the background, objects, and characters in the picture in words. For example, you can list it like 'sea', 'wave', 'hat', 'bag', 'man', and 'child'. Look at the picture and list the words.",
+        #    'Please list the background and objects in the picture in words',
+        #    'Please extract only the words that refer to the place, background, objects, and people from the sentence you just said',
+        #    'Please list the nouns that mean places, backgrounds, objects, and people in the sentence you just said.',
+            'Please list the nouns that mean places, backgrounds, objects, and people in the sentence you just said. Be sure to exclude adjectives and verbs.',
+        #    'Second, based on the words you just listed, you can summarize the picture in one short sentence. For example, you can say it like "a family photo taken in front of a sea of waves."']
+            'Please summarize the picture in a sentence centered on the place and background. For example, simply describe it like "a family photo taken in front of a beach" or "a family photo taken in a park surrounded by trees."']

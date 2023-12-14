@@ -281,3 +281,5 @@ jm_INTEG/data(Family_Album)/family/*.jpg
 jm_INTEG/data(Family_Album)/db/inquiry_family/family_1/*.jpg
 jm_INTEG/config.py
 jm_INTEG/resource/secret.json
+jm_INTEG/resource/secret_aivil.json
+jm_INTEG/resource/secret_minkyo.json

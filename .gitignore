@@ -283,3 +283,12 @@ jm_INTEG/config.py
 jm_INTEG/resource/secret.json
 jm_INTEG/resource/secret_aivil.json
 jm_INTEG/resource/secret_minkyo.json
+
+#
+jm_INTEG(gpt4v)/data(Family_Album)/face_registration/indivisuals/*.jpg
+jm_INTEG(gpt4v)/data(Family_Album)/family/*.jpg
+jm_INTEG(gpt4v)/data(Family_Album)/db/inquiry_family/family_1/*.jpg
+jm_INTEG(gpt4v)/config.py
+jm_INTEG(gpt4v)/resource/secret.json
+jm_INTEG(gpt4v)/resource/secret_aivil.json
+jm_INTEG(gpt4v)/resource/secret_minkyo.json

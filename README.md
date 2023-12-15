@@ -218,21 +218,15 @@
 # 🔍 참고 자료
 
 ### ✔️ 시연 영상 / 블로그
-- 시연 영상 : [데스크 워커를 위한 자세 교정 서비스 '척추의 요정' (3)](https://velog.io/@min0731/%EB%8D%B0%EC%8A%A4%ED%81%AC-%EC%9B%8C%EC%BB%A4%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%9E%90%EC%84%B8-%EA%B5%90%EC%A0%95-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%B2%99%EC%B6%94%EC%9D%98-%EC%9A%94%EC%A0%95-3)
+- 시연 영상 : [메타버스 아카데미 2기 최종프로젝트 대상 '우리가족섬'](https://youtu.be/vKTtqw60PuQ?si=t9kbl-Yw7uvCULkX)
 - Velog : [데스크 워커를 위한 자세 교정 서비스 '척추의 요정' (1)](https://velog.io/@min0731/%EB%8D%B0%EC%8A%A4%ED%81%AC-%EC%9B%8C%EC%BB%A4%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%9E%90%EC%84%B8-%EA%B5%90%EC%A0%95-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%B2%99%EC%B6%94%EC%9D%98-%EC%9A%94%EC%A0%95-1)
-  
-### ✔️ 기사
-
-- https://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA020041000100&brdScnBltNo=4&brdBltNo=9054
-- https://www.xn--989a170ahhpsgb.com/15/?q=YToyOntzOjEyOiJrZXl3b3JkX3R5cGUiO3M6MzoiYWxsIjtzOjQ6InBhZ2UiO2k6MTMzO30%3D&bmode=view&idx=13580562&t=board
 
 ### ✔️ 오픈소스 (GitHub)
 
-- https://github.com/pinecone-io/examples/blob/master/learn/generation/openai/fine-tuning/gpt-3.5-agent-training/00-fine-tuning.ipynb
-- https://github.com/HW140701/VideoTo3dPoseAndBvh
-- https://github.com/facebookresearch/AnimatedDrawings
-
-### ✔️ 라이브러리 공식 문서
-
-- https://www.langchain.com/
-- https://openai.com/blog/gpt-3-5-turbo-fine-tuning-and-api-updates
+- https://platform.openai.com/docs/api-reference
+- [https://github.com/HW140701/VideoTo3dPoseAndBvh](https://github.com/haotian-liu/LLaVA)
+- https://github.com/imoneoi/openchat
+- https://github.com/zephyrproject-rtos/zephyr
+- https://docs.llamaindex.ai/en/stable/
+- https://python.langchain.com/docs/get_started/introduction
+- [https://github.com/pinecone-io/examples/blob/master/learn/generation/openai/fine-tuning/gpt-3.5-agent-training/00-fine-tuning.ipynb](https://github.com/ageitgey/face_recognition)

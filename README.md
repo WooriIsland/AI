@@ -7,7 +7,7 @@
 
 # 📃 프로젝트 소개
 
-### ✔️ LLaVA 1.5v/GPT-4-Vision/Langchain을 활용한 AI 앨범과 OpenChat/GPT-4-1106-Preview/Langchain/LLamaIndex를 활용한 AI 챗봇이 결합된 Unity 3D 엔진 기반의 메타버스 라이프로깅 SNS '우리가족섬' 프로젝트입니다.
+### ✔️ LLaVA v1.5 (13B)/GPT-4-Vision/Langchain을 활용한 AI 앨범과 OpenChat/GPT-4-1106-Preview/Langchain/LLamaIndex를 활용한 AI 챗봇이 결합된 Unity 3D 엔진 기반의 메타버스 라이프로깅 SNS '우리가족섬' 프로젝트입니다.
 
 #### 🔹 사이좋은 가족을 위한 메타버스 라이프로깅 SNS
 
@@ -140,7 +140,7 @@
 
 # 💡 주요 내용
 
-### ✔️ LLaVA 1.5v / GPT-4-Vision / Langchain을 활용한 AI 앨범
+### ✔️ LLaVA 1.5v (13B)/ GPT-4-Vision / Langchain을 활용한 AI 앨범
 
 ![image](https://github.com/WooriIsland/AI/assets/115389344/5d57f7fd-0c57-4221-bbed-8adf25f9bd49)
 
@@ -173,7 +173,7 @@
 ##### 4) 사진의 배경 및 물체 Tagging 및 요약
 
 🔹 구현 방법(1)
-- 활용 모델 : LLaVA v15
+- 활용 모델 : LLaVA v1.5 (13B)
 - 프롬프트
 ![image](https://github.com/WooriIsland/AI/assets/115389344/9c870e8f-2ec5-4bf8-8951-1a867c9d280e)
 - 추론 예시<br>

@@ -80,6 +80,10 @@
 2) 채팅방에서 이루어지는 대화에 참여하고 인근 축제 및 행사 정보를 추천(크롤링)
 3) LLamaIndex, ChromaDB를 활용하여 대화 내역을 저장, 일정 등록 및 조회
 
+### ✔️ 융합구조도
+
+![image](https://github.com/WooriIsland/AI/assets/115389344/0f0cf7e7-6387-45fa-be83-efebab6f6ac1)
+
 # 📅프로젝트 진행 기록
 
 ### ✔️ 수행 기간

@@ -162,7 +162,7 @@
 
 ##### 3) 안면 데이터 저장 및 추출
 
-![image](https://github.com/WooriIsland/AI/assets/115389344/8dc820ae-0550-49bd-9291-4fae1680161c)
+![image](https://github.com/WooriIsland/AI/assets/115389344/69953363-efc0-46ee-a63e-8fb389c50e35)
 
 - 활용 모델 : [안면 인식 모델](https://github.com/ageitgey/face_recognition)
 - 활용 테스트 데이터 : [AI 허브 '가족 관계가 알려진 얼굴 이미지 데이터'](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=528)
@@ -172,134 +172,34 @@
 
 ##### 4) 사진의 배경 및 물체 Tagging 및 요약
 
-🔹 구현 방법(1)
+🔹 구현 방법 (1)
 - 활용 모델 : LLaVA v1.5 (13B)
 - 프롬프트
 ![image](https://github.com/WooriIsland/AI/assets/115389344/9c870e8f-2ec5-4bf8-8951-1a867c9d280e)
 - 추론 예시<br>
 ![image](https://github.com/WooriIsland/AI/assets/115389344/984ec3e6-e009-4134-8634-05aeef44a00c)
 
-
-🔹 구현 방법(2)
-- 활용 모델(2) : GPT-4-Vision
+🔹 구현 방법 (2)
+- 활용 모델 : GPT-4-Vision
 - 프롬프트
 ![image](https://github.com/WooriIsland/AI/assets/115389344/b5c10b73-b0b4-4ada-b90d-42e97508812d)
-- 추론 예시
+- 추론 예시<br>
 ![image](https://github.com/WooriIsland/AI/assets/115389344/b9f6287a-685e-43ed-90d1-77797b4d795f)
 
+🔹 의의
+- 배경 및 물체들을 Tagging하여 저장하고, 이를 기반으로 앨범 속 사진들을 검색할 수 있는 기능 지원
+- 사진 속 정보(메타데이터, 인물, 배경/물체)들을 토대로 간결한 한 문장으로 요약하여 정리
 
-##### 4) LDA 인사이트 도출
+##### 5) 활용 LVM 모델 비교
 
-- 긍정적인 반응을 보인 Topic #1 토픽 분석
+![image](https://github.com/WooriIsland/AI/assets/115389344/9059fb6d-c6e5-482d-ae15-f642ddcd26de)
 
-  ![image](https://github.com/SpineTracker60/ai-model-server/assets/115389344/8905bc78-24ba-4558-8265-f146427b3805)
-
-- 긍정적으로 평가한 리뷰들 중 대부분 집중력 향상과 더불어 나무를 심고 숲을 가꾸는 재미요소에 몰입 / 시너지 효과
-- 이러한 실제 유저 반응들을 토대로 시각적 재미(캐릭터 애니메이션)을 적용한 자세 교정 서비스를 기획/개발에 근거
-
-### ✔️ MediaPipe 활용 자세 감지
-
-##### 1) 요구사항 
-
-- '척추의 요정' 서비스의 기본이 되는 거북목 / 비대칭 자세 / 기대 앉기 / 졸음 감지 모듈 개발
-  
-##### 2) 자세 구분
-
-🔹서비스 사용 시 촬영한 정자세 사진 기준을 통해 비교/구분
-
-![KakaoTalk_20230917_123027747](https://github.com/SpineTracker60/ai-model-server/assets/115389344/206337c1-75bd-440d-a80d-d04ff302321d) ![KakaoTalk_20230917_123027747_01](https://github.com/SpineTracker60/ai-model-server/assets/115389344/f05a305f-af6f-4d1c-a36a-9fb3af762166)
-
-- 거북목 : 정자세 기준 일정 비율 이상 얼굴 크기 확장 시 탐지
-- 비대칭 자세 : 어깨 좌표 기울기 이상치 탐지
-- 기대 앉기 : 정자세 기준 얼굴 크기 일정 비율 이상 감소 시 탐지
-- 졸음 : 눈커플 좌표 y축(위아래 길이) 기준 축소 시 탐지
-
-### ✔️ ChatGPT API + LangChain 활용 '레톤이' 챗봇
-
-- GPT 3.5 Turbo 모델 활용
--  LangChain 모델 중 대화에 특화된 ChatOpenAI(LMM 모델)활용
-- ChatPromptTemplate(프롬프트 템플릿) 활용
-- 최소 두어절 ~ 세어절 등 적은 입력 단위에 기반하여 전체 대화 내역을 기억하는 ConversationBufferMemory 활용
-
-##### 1) 챗봇 역할
-
-- 시스템 안내 : 신규 유저들을 위한 서비스 안내 질의응답
-- 스트레칭 정보 제공 : 장기간 업무/작업을 하는 유저들을 위한 목/허리/손목 스트레칭 정보 전달
-- 제품 추천 : 성별 / 나이 / 직업 / 자세 데이터( 거북목, 비대칭, 기대앉기, 졸음 수치) 기반 개인화 제품 추천
-- 기타 일상 대화
-
-##### 2) 프롬프트 엔지니어링
-
-- Persona Pattern : '척추의 요정'서비스의 친절한 챗봇이라는 역할/이름/성격 부여
-- Task : 유저들의 입력에 친절히 답변해주는 역할, 최우선적으로 사용자의 입력이 상품 추천인지/아닌지 의도를 분류하는 역할 명시
-- Examples : 사용자들이 입력할 수 있는 시스템 안내 /스트레칭 방법 /상품 추천 문답 예시 명시
-- Format : 20글자 이내의 간단한 답변 형식/길이 반환 형식 정의
-- Tone : 절친한 친구 말투 / 이모티콘 다수 사용 등 답변 스타일 명시
-
-![image](https://github.com/SpineTracker60/ai-model-server/assets/115389344/190e96c8-8386-411f-b4e8-dc2dda6cbc33)
-
-##### 3) 챗봇 테스트 모듈 개발 
-
-- 동일한 질문에 대한 다양한 표현방식(Utterance) 테스트를 위한 Gradio 기반 모듈 개발
-- 테스트 질문 답변 데이터를 저장하여 프롬프트 고도화에 활용
-
-![ezgif com-resize](https://github.com/SpineTracker60/ai-model-server/assets/115389344/22a44e95-4e53-48b7-92b6-32a1b3d71fd8)![image](https://github.com/SpineTracker60/ai-model-server/assets/115389344/85c3a03d-942b-4ca2-aef5-675d75d57bb4)
-
-##### 4) 챗봇 구현 예시 및 통신
-
-- 시스템 안내와 개인화 상품 추천에 대한 예시입니다.
-  
-![ezgif com-resize (1)](https://github.com/SpineTracker60/ai-model-server/assets/115389344/b30e4dff-574c-4efc-853d-da24b1799ab4)![ezgif com-resize (4)](https://github.com/SpineTracker60/ai-model-server/assets/115389344/b75709b1-f208-4f82-bafe-946cd13f2033)
-
-
-### ✔️ ML PipLine을 활용한 개인화 상품 추천 시스템
-
-##### 1) 개요
-
-- 회원가입 시 입력된 성별 / 나이 / 직업 데이터
-- 서비스 사용에 따라 누적되는 거북목 / 비대칭 자세 / 기대앉기 / 졸음 데이터
-
-![image](https://github.com/SpineTracker60/ai-model-server/assets/115389344/d783cf94-ff1d-432f-9d16-4277d075e99d)
-
-- 위 데이터를 기반으로 자세 교정에 도움이 될 수 있는 의자, 책상, 마우스 등의 사무 상품 추천 시스템
-- 본 프로젝트에서는 10000개의 Mock-Up 데이터를 직접 생성하여 적용하고 실제 서비스 사용에 따라 발생하는 새 데이터 병합하는 것으로 계획
-
-##### 2) 활용 Machine Learning 모델
-
-- LinearRegression(LR) / RandomForest(RF) / Singular Value Decomposition(SVD) / K-Nearest Neighbors (KNN) / XGBoostClassificier(XGBM)
-- 서비스 운영에 따라 최초 구성된 10000만개 데이터에 새로운 데이터 추가
-- 일주일/한달 단위 갱신된 새 데이터에 따라 적합한 ML 아키텍처가 상이
-- 이에 따라 갱신된 데이터별 최적의 정확도를 가진 모델 적용을 자동화시키기 위해 ML PipeLine을 구축
-  
-![image](https://github.com/SpineTracker60/ai-model-server/assets/115389344/c5db3380-f838-4209-9162-274df7941a9f)
-
-- 개인에 적합한 최적화 추천을 통해 유저 만족도를 향상시키고 비즈니스 모델 고도화를 도모
-  
-### ✔️ 대표 캐릭터 '레톤이' 애니메이션 적용
-
-##### 1) 서비스 대표 캐릭터 '레톤이'
-
-- Forest 리뷰 LDA 분석에 입각한 서비스 재미요소 대표 캐릭터 디자인
-
-![image](https://github.com/SpineTracker60/ai-model-server/assets/115389344/61d9b3f1-e38c-4f26-9562-b4ef5b22e8da)
-
-##### 2) 시각적 재미요소를 위한 애니메이션 적용
-
-- VideoTo3dPoseAndBVH 활용 BVH(3D 모션 좌표) 추출
-- 사람이 움직이는 영상 입력, 이후 구조와 프레임별 리깅데이터가 있는 BVH파일로 변환 
-
-![image](https://github.com/SpineTracker60/ai-model-server/assets/115389344/e28515ff-7880-4510-a23e-1100941d5778)
-
-![image](https://github.com/SpineTracker60/ai-model-server/assets/115389344/32d5ba10-46e8-4ac8-991d-1bddcc7d01f7)
-
-- Animated Drawings (META 오픈 소스) 활용 
-- 애니메이션 데이터 BVH파일 +  사람 형상의 캐릭터 데이터  
-- 이미지에서 사람 형상 인식 및 적용
-- 3D 모션에 따른 2d 이미지 변형을 진행 -> 움직이는 캐릭터 GIF 출력
-
-![image](https://github.com/SpineTracker60/ai-model-server/assets/115389344/0f9b61ed-5e95-44f8-884e-ee361a722a23)
-
-![KakaoTalk_20230926_232107942](https://github.com/SpineTracker60/ai-model-server/assets/115389344/c7e710be-aa05-4742-ae6c-1921027cfec1)
+- LLaVA v1.5 (13B)의 경우, RTX4090 24GB 이상 환경에서 추가비용없이 구동 가능
+- 하지만 LLaVA는 사진에 대한 사실 자체만을 묘사하는데 그치고, 본 '우리가족섬' 서비스에서 표현하고자하는 날짜/시간, 인물, 배경 정보를 포함하고 재치있거나 감성적인 형태로 사진을 요약하는데는 한계가 있음
+- 또한 인물적지 않은 확률로 영어로 반환되어 서비스에 적용하기 어려움
+- 그리하여 대안으로 GPT-4-Vision을 활용하여 구현함
+- GPT-4-Vision의 경우 640x640 크기 이미지와 위 프롬프트 기준으로 사진 1장당 약 30원(0.022달러)꼴로 운용 가능함 
+- 또한 사진에서 검색 키워드(배경,날씨,물체,장소 등) 추출과 간결하게 재치있는 요약문을 생성하는데 뛰어나 본 서비스에 적용함
 
 # 🛠 기술 스택
 

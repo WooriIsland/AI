@@ -71,7 +71,7 @@
 
 🔸 임정민
 1) CNN 기반의 Face Recognition 모델 활용 개별 안면 데이터 저장 및 사진 속 인물 추출
-2) LLaVA v1.5 / GPT-4-Vision 활용 사진 속 배경/물체 추출
+2) 앨범 사진 검색 기능을 위한 LLaVA v1.5 / GPT-4-Vision 활용 사진 속 배경/물체 추출
 3) LLaVA v1.5 / GPT-4-Vision 활용, 사진의 날짜/시간 메타데이터, 인물 , 배경/물체 정보를 토대로 사진별 요약(메모) 생성
 4) MySQL , S3 활용 사진 앨범 DB 구축
 

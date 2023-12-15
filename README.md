@@ -5,7 +5,8 @@
 
 ![image](https://github.com/WooriIsland/AI/assets/115389344/ced0ff5b-e4d2-45b0-96b0-221acab0e8a7)
 
-- 시연 영상 : [메타버스 아카데미 2기 최종프로젝트 대상 '우리가족섬'](https://youtu.be/vKTtqw60PuQ?si=t9kbl-Yw7uvCULkX)
+🎥 시연 영상 : [메타버스 아카데미 2기 최종프로젝트 대상 '우리가족섬'](https://youtu.be/vKTtqw60PuQ?si=t9kbl-Yw7uvCULkX)
+🥇 메타버스 아카데미 2기 최종프로젝트 대상 수상작
 
 # 📃 프로젝트 소개
 

@@ -9,7 +9,9 @@
 
 # 📃 프로젝트 소개
 
-### ✔️ LLaVA v1.5 (13B)/GPT-4-Vision/Langchain을 활용한 AI 앨범과 OpenChat/GPT-4-1106-Preview/Langchain/LLamaIndex를 활용한 AI 챗봇이 결합된 Unity 3D 엔진 기반의 메타버스 라이프로깅 SNS '우리가족섬' 프로젝트입니다.
+### ✔️ Unity 3D 엔진 기반의 메타버스 라이프로깅 SNS '우리가족섬' 프로젝트입니다.
+
+### ✔️ LLaVA v1.5 (13B) / GPT-4-Vision / Langchain을 활용한 AI 앨범과 OpenChat / GPT-4-1106-Preview / Langchain / LlamaIndex를 활용한 AI 챗봇이 결합되었습니다.
 
 #### 🔹 사이좋은 가족을 위한 메타버스 라이프로깅 SNS
 

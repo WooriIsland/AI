@@ -247,7 +247,7 @@
 
 ### ✔️ 시연 영상 / 블로그
 - 시연 영상 : [메타버스 아카데미 2기 최종프로젝트 대상 '우리가족섬'](https://youtu.be/vKTtqw60PuQ?si=t9kbl-Yw7uvCULkX)
-- Velog : [데스크 워커를 위한 자세 교정 서비스 '척추의 요정' (1)](https://velog.io/@min0731/%EB%8D%B0%EC%8A%A4%ED%81%AC-%EC%9B%8C%EC%BB%A4%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%9E%90%EC%84%B8-%EA%B5%90%EC%A0%95-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%B2%99%EC%B6%94%EC%9D%98-%EC%9A%94%EC%A0%95-1)
+- Velog : [메타버스 라이프로깅 SNS '우리가족섬' (1)](https://velog.io/@min0731/%EB%A9%94%ED%83%80%EB%B2%84%EC%8A%A4-%EB%9D%BC%EC%9D%B4%ED%94%84%EB%A1%9C%EA%B9%85-SNS-%EC%9A%B0%EB%A6%AC%EA%B0%80%EC%A1%B1%EC%84%AC-1)
 
 ### ✔️ 오픈소스 (GitHub)
 

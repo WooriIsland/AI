@@ -175,21 +175,18 @@
 🔹 구현 방법(1)
 - 활용 모델 : LLaVA v15
 - 프롬프트
+![image](https://github.com/WooriIsland/AI/assets/115389344/9c870e8f-2ec5-4bf8-8951-1a867c9d280e)
+- 추론 예시<br>
+![image](https://github.com/WooriIsland/AI/assets/115389344/984ec3e6-e009-4134-8634-05aeef44a00c)
 
-- 추론 예시
 
 🔹 구현 방법(2)
 - 활용 모델(2) : GPT-4-Vision
 - 프롬프트
 ![image](https://github.com/WooriIsland/AI/assets/115389344/b5c10b73-b0b4-4ada-b90d-42e97508812d)
 - 추론 예시
+![image](https://github.com/WooriIsland/AI/assets/115389344/b9f6287a-685e-43ed-90d1-77797b4d795f)
 
-![image](https://github.com/SpineTracker60/ai-model-server/assets/115389344/893662d3-7afd-43c4-8d00-88fbfafc89e1)
-
-- 토픽 갯수 3종류 (n_component=3) 기준 토픽 분류
-1) Topic #1 : 집중력 향상 / 성취감 / 나무,숲 재미요소
-2) Topic #2 : 결제 문의 / 프리미엄 유저    
-3) Topic #3 : 기능 오류 / 개선점
 
 ##### 4) LDA 인사이트 도출
 

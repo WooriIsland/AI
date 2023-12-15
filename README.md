@@ -5,6 +5,8 @@
 
 ![image](https://github.com/WooriIsland/AI/assets/115389344/ced0ff5b-e4d2-45b0-96b0-221acab0e8a7)
 
+- 시연 영상 : [메타버스 아카데미 2기 최종프로젝트 대상 '우리가족섬'](https://youtu.be/vKTtqw60PuQ?si=t9kbl-Yw7uvCULkX)
+
 # 📃 프로젝트 소개
 
 ### ✔️ LLaVA v1.5 (13B)/GPT-4-Vision/Langchain을 활용한 AI 앨범과 OpenChat/GPT-4-1106-Preview/Langchain/LLamaIndex를 활용한 AI 챗봇이 결합된 Unity 3D 엔진 기반의 메타버스 라이프로깅 SNS '우리가족섬' 프로젝트입니다.
@@ -230,3 +232,4 @@
 - https://docs.llamaindex.ai/en/stable/
 - https://python.langchain.com/docs/get_started/introduction
 - [https://github.com/pinecone-io/examples/blob/master/learn/generation/openai/fine-tuning/gpt-3.5-agent-training/00-fine-tuning.ipynb](https://github.com/ageitgey/face_recognition)
+- https://docs.trychroma.com/

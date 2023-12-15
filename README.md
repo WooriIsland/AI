@@ -153,7 +153,14 @@
 - 사진에 나타나는 배경 및 물체 (장소, 날씨, 가구, 의상 등) 정보 Tagging
 - 사진 속 정보(메타데이터, 인물, Tagging)를 종합하여 한 문장의 요약 생성
 
-##### 2) 안면 데이터 저장 및 추출
+##### 2) 이미지 날짜/시간, 위도/경도 메타데이터 추출
+
+![image](https://github.com/WooriIsland/AI/assets/115389344/024cfc70-3af5-412a-a026-074a455749a2)
+
+- 등록한 사진의 촬영 날짜/시간 추출
+- 위도/경도 메타데이터를 기반으로 위치(주소) 추출
+
+##### 3) 안면 데이터 저장 및 추출
 
 ![image](https://github.com/WooriIsland/AI/assets/115389344/8dc820ae-0550-49bd-9291-4fae1680161c)
 
@@ -163,7 +170,17 @@
 - 동일 섬(방)에 소속된 유저별 안면 데이터 등록
 - 이후 가족 사진 등록시, 벡터화된 안면 데이터를 기반으로 인물 추출
 
-##### 3) 등록된 사진의 배경 및 물체 Tagging
+##### 4) 사진의 배경 및 물체 Tagging 및 요약
+
+- 활용 모델(1) : LLaVA v15
+- 프롬프트
+
+- 추론 예시
+
+- 활용 모델(2) : GPT-4-Vision
+- 프롬프트
+![image](https://github.com/WooriIsland/AI/assets/115389344/b5c10b73-b0b4-4ada-b90d-42e97508812d)
+- 추론 예시
 
 ![image](https://github.com/SpineTracker60/ai-model-server/assets/115389344/893662d3-7afd-43c4-8d00-88fbfafc89e1)
 

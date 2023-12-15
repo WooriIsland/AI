@@ -164,7 +164,7 @@
 
 ![image](https://github.com/WooriIsland/AI/assets/115389344/69953363-efc0-46ee-a63e-8fb389c50e35)
 
-- 활용 모델 : [안면 인식 모델](https://github.com/ageitgey/face_recognition)
+- 활용 모델 : [Face Recognition](https://github.com/ageitgey/face_recognition)
 - 활용 테스트 데이터 : [AI 허브 '가족 관계가 알려진 얼굴 이미지 데이터'](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=528)
 
 - 동일 섬(방)에 소속된 유저별 안면 데이터 등록
@@ -173,7 +173,7 @@
 ##### 4) 사진의 배경 및 물체 Tagging 및 요약
 
 🔹 구현 방법 (1)
-- 활용 모델 : LLaVA v1.5 (13B)
+- 활용 모델 : [LLaVA v1.5 (13B)](https://github.com/haotian-liu/LLaVA)
 - 프롬프트
 ![image](https://github.com/WooriIsland/AI/assets/115389344/9c870e8f-2ec5-4bf8-8951-1a867c9d280e)
 - 추론 예시<br>
@@ -196,9 +196,9 @@
 
 - LLaVA v1.5 (13B)의 경우, RTX4090 24GB 이상 환경에서 추가비용없이 구동 가능
 - 하지만 LLaVA는 사진에 대한 사실 자체만을 묘사하는데 그치고, 본 '우리가족섬' 서비스에서 표현하고자하는 날짜/시간, 인물, 배경 정보를 포함하고 재치있거나 감성적인 형태로 사진을 요약하는데는 한계가 있음
-- 또한 인물적지 않은 확률로 영어로 반환되어 서비스에 적용하기 어려움
+- 또한 적지 않은 확률로 영어로 반환되어 서비스에 적용하기 어려움
 - 그리하여 대안으로 GPT-4-Vision을 활용하여 구현함
-- GPT-4-Vision의 경우 640x640 크기 이미지와 위 프롬프트 기준으로 사진 1장당 약 30원(0.022달러)꼴로 운용 가능함 
+- GPT-4-Vision의 경우 GPU 요구 사항 없이, 640x640 크기 이미지, 위 프롬프트 기준으로 사진 1장당 약 30원(0.022달러)꼴로 운용 가능함 
 - 또한 사진에서 검색 키워드(배경,날씨,물체,장소 등) 추출과 간결하게 재치있는 요약문을 생성하는데 뛰어나 본 서비스에 적용함
 
 # 🛠 기술 스택

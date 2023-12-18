@@ -185,6 +185,7 @@
 
 🔹 구현 방법 (1)
 - 활용 모델 : [LLaVA v1.5 (13B)](https://github.com/haotian-liu/LLaVA)
+- 추론 환경 : Ubuntu 20.04 ARM , RTX 4090 (24GB)
 - 프롬프트
 ![image](https://github.com/WooriIsland/AI/assets/115389344/9c870e8f-2ec5-4bf8-8951-1a867c9d280e)
 - 추론 예시<br>

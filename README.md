@@ -77,7 +77,7 @@
 4) MySQL , S3 활용 사진 앨범 DB 구축
 
 🔸 이승현
-1) OpenChat / Zephyr / GPT-4-1101-Preview 기반 채팅방 AI 챗봇 구현
+1) GPT-3.5turbo-1106 / GPT-4-1101-Preview 기반 채팅방 AI 챗봇 구현
 2) 채팅방에서 이루어지는 대화에 참여하고 인근 축제 및 행사 정보를 추천(크롤링)
 3) LLamaIndex, ChromaDB를 활용하여 대화 내역을 저장, 일정 등록 및 조회
 

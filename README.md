@@ -173,7 +173,8 @@
 
 ##### 3) 안면 데이터 저장 및 추출
 
-![image](https://github.com/WooriIsland/AI/assets/115389344/69953363-efc0-46ee-a63e-8fb389c50e35)
+![image](https://github.com/WooriIsland/AI/assets/115389344/5eaf1923-ffca-44dd-8408-48a3893beaff)
+
 
 - 활용 모델 : [Face Recognition](https://github.com/ageitgey/face_recognition)
 - 활용 테스트 데이터 : [AI 허브 '가족 관계가 알려진 얼굴 이미지 데이터'](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=528)
@@ -204,7 +205,7 @@
 
 ##### 5) 활용 Multi-Modal LLM 모델 비교
 
-![image](https://github.com/WooriIsland/AI/assets/115389344/9059fb6d-c6e5-482d-ae15-f642ddcd26de)
+![image](https://github.com/WooriIsland/AI/assets/115389344/7134ec9f-ec1c-4bc7-868f-c8cd2d4871d1)
 
 - LLaVA v1.5 (13B)의 경우, RTX4090 24GB 이상 환경에서 추가적인 비용없이 구동 가능
 - 하지만 LLaVA는 사진에 대한 사실 자체만을 묘사하는데 그치고, 본 '우리가족섬' 서비스에서 표현하고자 하는 날짜/시간, 인물, 배경 정보를 포함하며 재치있거나 감성적인 형태로 사진을 요약하는데는 한계

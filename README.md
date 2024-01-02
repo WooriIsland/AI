@@ -176,7 +176,7 @@
 ![image](https://github.com/WooriIsland/AI/assets/115389344/5eaf1923-ffca-44dd-8408-48a3893beaff)
 
 
-- 활용 모델 : [Face Recognition](https://github.com/ageitgey/face_recognition)
+- 활용 모델 : [DeepFace](https://github.com/serengil/deepface), [Dlib(CNN)](https://github.com/ageitgey/face_recognition)
 - 활용 테스트 데이터 : [AI 허브 '가족 관계가 알려진 얼굴 이미지 데이터'](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=528)
 
 - 동일 섬(방)에 소속된 유저별 안면 데이터 등록
@@ -185,7 +185,7 @@
 ##### 4) 사진의 배경 및 물체 Tagging 및 요약
 
 🔹 구현 방법 (1)
-- 활용 모델 : [LLaVA v1.5 (13B)](https://github.com/haotian-liu/LLaVA)
+- 활용 모델 : [LLaVA v1.5 (13B)](https://github.com/haotian-liu/LLaVA) , [GPT-4-Vision](https://platform.openai.com/docs/guides/vision)
 - 추론 환경 : Ubuntu 20.04 ARM , RTX 4090 (24GB)
 - 프롬프트
 ![image](https://github.com/WooriIsland/AI/assets/115389344/9c870e8f-2ec5-4bf8-8951-1a867c9d280e)
